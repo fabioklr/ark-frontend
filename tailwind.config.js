@@ -31,5 +31,5 @@ module.exports = {
       'md': '768px',
     },
   },
-  plugins: [],
+  plugins: []
 }

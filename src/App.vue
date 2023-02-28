@@ -1,7 +1,8 @@
 <template>
-  <div class="relative grid grid-cols-6 grid-rows-6">
+  <div class="relative grid grid-cols-6 bg-gradient-to-tr from-magenta-haze
+                via-eerie-black to-eerie-black min-h-screen md:h-screen md:max-h-screen">
     <div class="absolute inset-x-0 top-0 text-white items-center py-6 px-8 col-span-full flex justify-between z-10">
-      <h1 class="text-xl italic font-bold z-20">architektur rolf keller</h1>
+      <router-link :to="{name: Home}" class="text-xl italic font-bold z-20">architektur rolf keller</router-link>
       <button @click="showMenu = !showMenu" class="md:hidden
       cursor-pointer text-xl z-20">
           <i v-if="showMenu" class="fa-sharp fa-solid fa-xmark"></i>
@@ -20,16 +21,16 @@
               <li class="md:mx-4 md:my-0 mb-6 opacity-100 self-center" v-for="link in links" :key="link.id">
                   <router-link :to="link.link" class="font-semibold hover:text-gray">{{ link.label }}</router-link>
               </li>
-              <button class="bg-magenta-haze hover:bg-chinese-violet font-sm
-              text-white font-semibold skew-x-[-8deg] py-1.5 px-4 opacity-100">
+              <router-link :to="{name: Contact}" class="bg-magenta-haze hover:bg-chinese-violet font-sm
+                      text-white font-semibold skew-x-[-8deg] py-1.5 px-4 opacity-100">
                   Kontakt
-              </button>
+              </router-link>
           </ul>
       </Transition>
     </div>
-    <HomePage></HomePage>
-    <div class="absolute inset-x-0 top-0 text-white items-center py-6 px-8 text-xs
-                col-span-full row-start-6 flex justify-between z-10">
+    <router-view></router-view>
+    <div class="bottom-0 inset-x-0 top-0 text-white items-end py-6 px-8 text-xs
+                col-span-full flex justify-between z-10 h-12">
       <p>
         Copyright &copy; {{ new Date().getFullYear() }} by Rolf Keller.<br> All rights reserved.
       </p>
@@ -41,7 +42,6 @@
 </template>
 
 <script setup>
-import HomePage from './components/HomePage.vue';
 import { onMounted, ref } from 'vue';
 const showMenu = ref(false)
 const links = ref([
