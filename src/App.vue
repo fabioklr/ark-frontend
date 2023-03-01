@@ -1,6 +1,6 @@
 <template>
-  <div class="relative grid grid-cols-6 bg-gradient-to-tr from-magenta-haze
-                via-eerie-black to-eerie-black min-h-screen md:h-screen md:max-h-screen">
+  <div class="relative grid grid-cols-6 bg-gradient-to-t from-magenta-haze
+               to-eerie-black min-h-screen md:h-screen md:max-h-screen">
     <div class="absolute inset-x-0 top-0 text-white items-center py-6 px-8 col-span-full flex justify-between z-10">
       <router-link :to="{name: Home}" class="text-xl italic font-bold z-20">architektur rolf keller</router-link>
       <button @click="showMenu = !showMenu" class="md:hidden
