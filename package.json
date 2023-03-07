@@ -12,6 +12,8 @@
     "start": "npm run css-watch"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.10.0",
+    "pinia": "^2.0.33",
     "vue": "^3.2.45",
     "vue-router": "^4.1.6"
   },
