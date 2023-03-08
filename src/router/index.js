@@ -36,6 +36,10 @@ const routes = [
     {
         path: '/login',
         component: HomeView
+    },
+    {
+        path: '/signup',
+        component: HomeView
     }
   ]
 

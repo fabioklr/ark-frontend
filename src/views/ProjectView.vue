@@ -1,5 +1,5 @@
 <template>
-    <div class="my-16 drop-shadow-lg">
+    <div class="my-16 drop-shadow-lg col-span-full mx-4">
         <!-- Card with project information -->
         <div v-for="(project, index) in projects">
             <!-- Header with project's date of completion if first project of the year -->
@@ -15,7 +15,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { supabase } from '../supabase'
+import { supabase } from '../assets/supabase'
 import ProjectCard from '../components/ProjectCard.vue'
 
 const projects = ref([])
