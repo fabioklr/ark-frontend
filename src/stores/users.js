@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import { supabase } from '../assets/supabase'
+import { pb } from '../assets/pocketbase'
 
 export const useUserStore = defineStore('users', () => {
     const user = ref(null);
@@ -22,25 +22,16 @@ export const useUserStore = defineStore('users', () => {
             return errorMessage.value = 'Das Passwort kann nicht leer sein.';
         }
         
-        const { error } = await supabase.auth.signInWithPassword({
-            email: email,
-            password: password
-        });
+        const authData = await pb.collection('users').authWithPassword(email, password);
 
-        if (error) {
-            return errorMessage.value = error.message;
+        if (!pb.authStore.isValid) {
+            return errorMessage.value = authData.message;
         }
 
-        const { data: currentUser } = await supabase
-            .from('users')
-            .select()
-            .eq('email', email)
-            .single();
-
         user.value = {
-            id: currentUser.id,
-            username: currentUser.username,
-            email: currentUser.email
+            id: authData.record.id,
+            username: authData.record.username,
+            email: authData.record.email
         }
     };
 
@@ -57,35 +48,29 @@ export const useUserStore = defineStore('users', () => {
         }
         errorMessage.value = '';
 
-        const { data: userWithUsernameAlreadyExists } = await supabase
-            .from('users')
-            .select()
-            .eq('username', username)
-            .single();
+        const userExists = await pb.collection('users').getFirstListItem(`username="${username}"`, {
+            expand: 'relField1,relField2.subRelField',
+        });
 
-        if (userWithUsernameAlreadyExists) {
-            return errorMessage.value = 'Der Benutzer ist bereits registriert.';
+        if (userExists.code === 404) {
+            return errorMessage.value = userExists.message;
         }
         
-        const { error } = await supabase.auth.signUp({
-            email,
-            password
-        })
+        const data = {
+            "username": username,
+            "email": email,
+            "emailVisibility": true,
+            "verified": true,
+            "password": password,
+            "passwordConfirm": password,
+            "name": "test"
+        };
+        
+        const newUser = await pb.collection('users').create(data);
 
-        if (error) {
-            return errorMessage.value = error.message;
+        if (newUser.code === 400 || newUser.code === 403) {
+            return errorMessage.value = newUser.message;
         }
-
-        await supabase.from('users').insert({
-            username,
-            email
-        })
-
-        const { data: newUser } = await supabase
-            .from('users')
-            .select()
-            .eq('email', email)
-            .single();
     
         user.value = {
             id: newUser.id,
@@ -95,27 +80,18 @@ export const useUserStore = defineStore('users', () => {
     };
 
     const handleLogout = async () => {
-        await supabase.auth.signOut();
+        pb.authStore.clear();
         user.value = null;
     };
 
     const getUser = async () => {
-        const { data } = await supabase.auth.getUser();
-
-        if (!data.user) {
-            return user.value = null;
-        }
-
-        const { data: userWithEmail } = await supabase
-            .from('users')
-            .select()
-            .eq('email', data.user.email)
-            .single();
-        
-        user.value = {
-            id: userWithEmail.id,
-            username: userWithEmail.username,
-            email: userWithEmail.email
+        if (pb.authStore.token) {
+            const authData = await pb.collection('users').authRefresh();
+            user.value = {
+                id: authData.record.id,
+                username: authData.record.username,
+                email: authData.record.email
+            }
         }
     };
 

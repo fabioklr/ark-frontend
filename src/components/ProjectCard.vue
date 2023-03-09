@@ -2,7 +2,7 @@
     <div class="h-64 drop-shadow-lg bg-eerie-black mt-4 rounded flex flex-col">
         <!-- Carousel -->
         <div class="relative h-3/4">
-            <div v-for="(slide, index) in projectImgs">
+            <div v-for="(photoUrl, index) in project.photos">
                 <Transition
                     enter-active-class="transition-opacity duration-700 ease-in-out"
                     leave-active-class="transition-opacity duration-700 ease-in-out"
@@ -11,7 +11,7 @@
                     enter-to-class="opacity-100"
                     leave-from-class="opacity-100">
                     <div v-show="currentSlide === index + 1" class="absolute w-full h-full">
-                        <img :src="`/media/${slide}.jpg`" alt="" class="min-w-full h-full object-cover rounded">
+                        <img :src="`https://mammoth-rainbow.pockethost.io/api/files/nbz149u8u9p575z/${project.id}/${photoUrl}`" alt="" class="min-w-full h-full object-cover rounded">
                     </div>
                 </Transition>
             </div>
@@ -88,3 +88,7 @@ onMounted(() => {
     getSlideCount.value = projectImgs.length;
 })
 </script>
+
+
+https://mammoth-rainbow.pockethost.io/api/files/nbz149u8u9p575z/5yi2hs1krga0xa6/lance_anderson_qd_aaasr_zhdk_unsplash_Ia3wYAuTlv.jpg
+https://mammoth-rainbow.pockethost.io/api/files/nbz149u8u9p575z/5yi2hs1krga0xa6/lance_anderson_qd_aaasr_zhdk_unsplash_MtDrPW7Y1x.jpg
