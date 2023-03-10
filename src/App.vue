@@ -34,10 +34,10 @@
     <router-view />
     <AuthModal :showModal="showModal" :isLogin="isLogin" @update-show-modal="showModal = $event" v-if="showModal"/>
     <div v-if="user" class="flex justify-evenly mb-8">
-        <button @click="createNewProject" class="bg-eerie-black text-white p-4">Neues Projekt</button>
-        <button @click="logoutSubmit" class="bg-eerie-black text-white p-4">Logout</button>
+        <SiteButton buttonText="Neues Projekt" @click="createNewProject" />
+        <SiteButton buttonText="Logout" @click="logoutSubmit" />
     </div>
-    <div class="bottom-0 inset-x-0 top-0 text-white items-end py-6 px-8 text-xs
+    <div class="bottom-0 inset-x-0 top-0 text-white items-end py-6 text-xs
                 col-span-full flex justify-between z-10 h-12">
       <p>
         Copyright &copy; {{ new Date().getFullYear() }} by Rolf Keller.<br> All rights reserved.
@@ -53,6 +53,7 @@
 import { onMounted, ref, watchEffect } from 'vue';
 import { RouterView, useRouter } from 'vue-router';
 import AuthModal from './components/AuthModal.vue';
+import SiteButton from './components/SiteButton.vue';
 import { useUserStore } from './stores/users';
 import { useProjectStore } from './stores/projects';
 import { storeToRefs } from 'pinia';

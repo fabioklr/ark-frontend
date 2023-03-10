@@ -24,7 +24,7 @@
                   type="email"
                   required>
               </div>
-              <div @keydown.enter="formSubmit();" class="mb-4">
+              <div @keyup.enter="formSubmit" class="mb-4">
                 <input
                   v-model="userCredentials.password"
                   class="border rounded-lg py-2 px-3 w-full"
@@ -34,19 +34,10 @@
               </div>
               <p v-if="errorMessage" class="text-red-500 mb-4">{{ errorMessage }}</p>
               <div class="flex items-center justify-between">
-                <button
-                  @click="formSubmit();"
-                  class="bg-magenta-haze hover:bg-chinese-violet font-xs
-                      text-white font-semibold skew-x-[-8deg] py-1.5 px-4 opacity-100">
-                  {{ buttonText }}
-                </button>
+                <!-- Submit button -->
+                <SiteButton @click="formSubmit" :magenta="true" :button-text="buttonText" />
                 <!-- Cancel button -->
-                <button 
-                  @click="router.push(`/`); closeModal()" 
-                  class="bg-onyx hover:bg-gray font-xs
-                      text-white font-semibold skew-x-[-8deg] py-1.5 px-4 opacity-100">
-                  Abbrechen
-                </button>
+                <SiteButton @click="router.push(`/`); closeModal()" :magenta="false" button-text="Abbrechen" />
               </div>
             </div>
           </div>
@@ -58,15 +49,17 @@
   
 
 <script setup>
-import { defineEmits, reactive } from 'vue';
+import { defineEmits, reactive, ref } from 'vue';
 import { useUserStore } from '@/stores/users.js';
 import { useRouter } from 'vue-router';
 import { storeToRefs } from 'pinia';
+import SiteButton from '@/components/SiteButton.vue';
 
 const props = defineProps({
   showModal: Boolean,
   isLogin: Boolean
 })
+
 const emits = defineEmits(['update-show-modal', 'update-is-login']);
 const title = props.isLogin ? 'Login' : 'Registrierung';
 const buttonText = props.isLogin ? 'Login' : 'Registrieren';

@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 import { pb } from '../assets/pocketbase'
 
 export const useProjectStore = defineStore('projects', () => {
-    const projects = ref(null);
+    const projects = ref([]);
 
     const getProjects = async () => {
         const response = await pb.collection('projects').getFullList({

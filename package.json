@@ -12,6 +12,7 @@
     "start": "npm run css-watch"
   },
   "dependencies": {
+    "@formkit/vue": "^1.0.0-beta.15",
     "@supabase/supabase-js": "^2.10.0",
     "pinia": "^2.0.33",
     "pocketbase": "^0.12.0",
