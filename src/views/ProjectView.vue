@@ -1,5 +1,5 @@
 <template>
-    <div class="my-16 drop-shadow-lg col-span-full mx-4">
+    <div class="my-16 drop-shadow-lg col-span-full">
         <!-- Card with project information -->
         <div v-for="(project, index) in projects">
             <!-- Header with project's date of completion if first project of the year -->
@@ -14,21 +14,11 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
-import { pb } from '../assets/pocketbase'
+import { onMounted } from 'vue'
 import ProjectCard from '../components/ProjectCard.vue'
+import { useProjectStore } from '../stores/projects';
+import { storeToRefs } from 'pinia';
 
-const projects = ref([])
-
-const getProjects = async () => {
-  const records = await pb.collection('projects').getFullList({
-    sort: 'created',
-  });
-  projects.value = records;
-  console.log(projects.value);
-};
-
-onMounted(() => {
-    getProjects();
-})
+const projectStore = useProjectStore();
+const { projects } = storeToRefs(projectStore);
 </script>

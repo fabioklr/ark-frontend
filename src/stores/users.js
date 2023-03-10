@@ -13,25 +13,28 @@ export const useUserStore = defineStore('users', () => {
 
     const handleLogin = async (credentials) => {
         const { email, password } = credentials;
-
+      
         if (!validateEmail(email)) {
-            return errorMessage.value = 'Bitte gib eine gültige E-Mail Adresse ein.';
+          errorMessage.value = 'Bitte gib eine gültige E-Mail Adresse ein.';
+          return;
         }
-
+      
         if (!password.length) {
-            return errorMessage.value = 'Das Passwort kann nicht leer sein.';
+          errorMessage.value = 'Das Passwort kann nicht leer sein.';
+          return;
         }
         
-        const authData = await pb.collection('users').authWithPassword(email, password);
-
-        if (!pb.authStore.isValid) {
-            return errorMessage.value = authData.message;
-        }
-
-        user.value = {
-            id: authData.record.id,
-            username: authData.record.username,
-            email: authData.record.email
+        try {
+          const authData = await pb.collection('users').authWithPassword(email, password);
+          if (pb.authStore.isValid) {
+                user.value = {
+                id: authData.record.id,
+                username: authData.record.username,
+                email: authData.record.email
+                }
+            }
+        } catch (error) {
+          errorMessage.value = error.message;
         }
     };
 
@@ -47,36 +50,26 @@ export const useUserStore = defineStore('users', () => {
             return errorMessage.value = 'Das Passwort muss mindestens 6 Zeichen lang sein.';
         }
         errorMessage.value = '';
-
-        const userExists = await pb.collection('users').getFirstListItem(`username="${username}"`, {
-            expand: 'relField1,relField2.subRelField',
-        });
-
-        if (userExists.code === 404) {
-            return errorMessage.value = userExists.message;
-        }
         
         const data = {
             "username": username,
             "email": email,
             "emailVisibility": true,
-            "verified": true,
             "password": password,
             "passwordConfirm": password,
             "name": "test"
         };
-        
-        const newUser = await pb.collection('users').create(data);
 
-        if (newUser.code === 400 || newUser.code === 403) {
-            return errorMessage.value = newUser.message;
-        }
-    
-        user.value = {
-            id: newUser.id,
-            username: newUser.username,
-            email: newUser.email
-        }
+        try {
+            const newUser = await pb.collection('users').create(data);
+            user.value = {
+                id: newUser.id,
+                username: newUser.username,
+                email: newUser.email
+            }
+        } catch (error) {
+            errorMessage.value = error.message;
+          }
     };
 
     const handleLogout = async () => {

@@ -1,5 +1,5 @@
 <template>
-  <div class="relative bg-gradient-to-t from-magenta-haze
+  <div class="relative bg-gradient-to-t from-magenta-haze px-4
                to-eerie-black min-h-screen md:h-screen md:max-h-screen">
     <div class="inset-x-0 top-0 text-white items-center py-6 px-8 col-span-full flex justify-between z-10">
       <router-link :to="{name: 'home'}" class="text-xl italic font-bold z-20">architektur rolf keller</router-link>
@@ -34,7 +34,7 @@
     <router-view />
     <AuthModal :showModal="showModal" :isLogin="isLogin" @update-show-modal="showModal = $event" v-if="showModal"/>
     <div v-if="user" class="flex justify-evenly mb-8">
-        <button class="bg-eerie-black text-white p-4">Neues Projekt</button>
+        <button @click="createNewProject" class="bg-eerie-black text-white p-4">Neues Projekt</button>
         <button @click="logoutSubmit" class="bg-eerie-black text-white p-4">Logout</button>
     </div>
     <div class="bottom-0 inset-x-0 top-0 text-white items-end py-6 px-8 text-xs
@@ -51,9 +51,10 @@
 
 <script setup>
 import { onMounted, ref, watchEffect } from 'vue';
-import { RouterView } from 'vue-router';
+import { RouterView, useRouter } from 'vue-router';
 import AuthModal from './components/AuthModal.vue';
 import { useUserStore } from './stores/users';
+import { useProjectStore } from './stores/projects';
 import { storeToRefs } from 'pinia';
 
 const showMenu = ref(false)
@@ -61,18 +62,27 @@ const showModal = ref(false)
 const isLogin = ref(false)
 const windowWidth = ref(window.innerWidth);
 const userStore = useUserStore();
+const projectStore = useProjectStore();
 const { user } = storeToRefs(userStore);
+const router = useRouter();
 
 onMounted(() => {
+    // Auth refresh
+    userStore.getUser();
+    // Get projects from API
+    projectStore.getProjects();
     // Listen to window resize event to close the modal when the window size is changed manually.
     window.addEventListener('resize', () => {
         windowWidth.value = window.innerWidth;
     })
-    userStore.getUser();
 })
 
 const logoutSubmit = () => {
     userStore.handleLogout();
+}
+
+const createNewProject = () => {
+    router.push({name: 'create-project'});
 }
 
 watchEffect(() => {
