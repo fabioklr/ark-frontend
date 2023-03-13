@@ -1,12 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import { pb } from '../assets/pocketbase';
 
-const HomeView = () => import('../views/HomeView.vue')
-const ProjectView = () => import('../views/ProjectView.vue')
-const ProjectDetailsView = () => import('../views/ProjectDetailsView.vue')
-const CreateProjectView = () => import('../views/CreateProjectView.vue')
-const AboutView = () => import('../views/AboutView.vue')
-const ContactView = () => import('../views/ContactView.vue')
+const HomeView = () => import('../views/HomeView.vue');
 
 const routes = [
     { 
@@ -17,31 +12,31 @@ const routes = [
     {
         path: '/projekte',
         name: 'projects',
-        component: ProjectView,
+        component: () => import('../views/ProjectView.vue')
     },
     {
         path: '/projekte/neu',
         name: 'create-project',
-        component: CreateProjectView,
+        component: () => import('../views/CreateProjectView.vue'),
         // only authenticated users can create projects
         meta: { requiresAuth: true }
     },
     {
         path: '/projekte/:id',
         name: 'project-details',
-        component: ProjectDetailsView,
+        component: () => import('../views/ProjectDetailsView.vue'),
         // anybody can read a project
         meta: { requiresAuth: false }
     },
     { 
         path: '/unternehmen',
         name: 'about',
-        component: AboutView
+        component: () => import('../views/AboutView.vue')
     },
     { 
         path: '/kontakt',
         name: 'contact',
-        component: ContactView
+        component: () => import('../views/ContactView.vue')
     },
     {
         path: '/login',
@@ -61,8 +56,7 @@ const router = createRouter({
 router.beforeEach((to, from) => {
     if (to.meta.requiresAuth && !pb.authStore.token) {
       return {
-        path: '/login',
-        query: { redirect: to.fullPath },
+        path: '/login'
       }
     }
   })

@@ -15,7 +15,7 @@
                     enter-to-class="opacity-100"
                     leave-from-class="opacity-100">
                     <div v-show="currentSlide === index + 1" class="absolute w-full h-full">
-                        <img :src="`https://mammoth-rainbow.pockethost.io/api/files/nbz149u8u9p575z/${project.id}/${photoUrl}`" alt="" class="min-w-full h-full object-cover rounded">
+                        <img :src="`https://docker118434-ark-backend.jcloud.ik-server.com/api/files/nbz149u8u9p575z/${project.id}/${photoUrl}`" alt="" class="min-w-full h-full object-cover rounded">
                     </div>
                 </Transition>
             </div>
@@ -41,7 +41,7 @@
             <p class="text-lg mb-6">
                 Jahr: {{ project.year_completed.slice(0, 4) }}
             </p>
-            <p class="text-lg font-bold">
+            <p class="text-lg">
                 {{ project.description }}
             </p>
         </div>

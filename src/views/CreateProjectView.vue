@@ -3,23 +3,21 @@
         <div class="text-white text-4xl text-center font-bold mt-16 mb-8">
             <h1>Neues Projekt</h1>
         </div>
-        <div class="flex flex-col justify-center">
+        <div class="flex flex-col items-center">
             <FormKit
                 v-if="!complete"
-                id="projectForm"
+                ref="projectForm"
                 type="form"
-                @submit="submitHandler">
+                :actions="false"
+                form-class="w-full">
                 <FormKit
                     type="text"
                     name="title"
                     minlength=3
                     maxlength=30
                     placeholder="Titel"
-                    outer-class="mb-5"
                     wrapper-class="flex justify-center"
-                    label-class="block mb-1 font-bold text-sm"
-                    inner-class="rounded-lg mb-1 overflow-hidden focus-within:border-blue-500 grow md:max-w-lg"
-                    input-class="w-full h-10 px-3 border-none text-base text-gray-700 placeholder-gray-400" />
+                    inner-class="bg-white w-full max-w-xl" />
                 <FormKit
                     type="textarea"
                     name="description"
@@ -29,25 +27,31 @@
                     placeholder="Beschreibung"
                     outer-class="mb-5"
                     label-class="block mb-1 font-bold text-sm"
-                    inner-class="max-w-md rounded-lg mb-1 overflow-hidden focus-within:border-blue-500"
-                    input-class="w-full rounded px-3 border-none text-base text-gray-700 placeholder-gray-400" />
+                    wrapper-class="flex justify-center"
+                    inner-class="bg-white w-full max-w-xl" />
                 <FormKit
                     type="date"
                     name="date"
                     outer-class="mb-5"
                     label-class="block mb-1 font-bold text-sm"
-                    inner-class="max-w-md rounded-lg mb-1 overflow-hidden focus-within:border-blue-500"
-                    input-class="w-full h-10 px-3 border-none text-base text-gray-700 placeholder-gray-400" />
+                    wrapper-class="flex justify-center"
+                    inner-class="bg-white w-full max-w-xl" />
                 <FormKit
                     type="file"
                     name="photos"
                     accept=".jpg,.jpeg,.png,.webp"
                     multiple="true"
-                    noFiles-class="invisible"
-                    inner-class="bg-white rounded-lg"
-                    outer-class="mb-12" />
+                    help="Wählen Sie zwischen 1 und 3 Fotos aus."
+                    wrapper-class="flex justify-center"
+                    inner-class="bg-white max-w-xl"
+                    help-class="text-white text-center" />
             </FormKit>
-            <div v-else class="complete">Projekt erstellt 👍</div>
+            <div v-else class="text-white text-2xl text-center font-bold mt-16 mb-8">
+                <h1>Projekt erfolgreich erstellt! &#127881;</h1>
+            </div>
+            <div v-if="!complete" class="mb-12 mt-6 flex justify-center">
+                <SiteButton @click="submitHandler" button-text="Erstellen" />
+            </div>
         </div>
     </div>
 </template>
@@ -55,21 +59,27 @@
 <script setup>
 import { ref } from 'vue'
 import { pb } from '../assets/pocketbase'
+import SiteButton from '../components/SiteButton.vue'
 
-const complete = ref(false)
+const projectForm = ref(null);
+const complete = ref(false);
 
-const submitHandler = async (data) => {
+const submitHandler = async () => {
+    const data = projectForm.value.node
+
     const body = new FormData()
     // We can append other data to our form data:
-    body.append('title', data.title)
-    body.append('description', data.description)
-    body.append('year_completed', data.date)
-    data.photos.forEach((fileItem) => {
-        console.log(fileItem.file)
+    body.append('title', data.value.title)
+    body.append('description', data.value.description)
+    body.append('year_completed', data.value.date)
+    body.append('user', pb.authStore.model.id)
+    data.value.photos.forEach((fileItem) => {
         body.append('photos', fileItem.file)
     })
 
     // upload and create new record
     await pb.collection('projects').create(body);
+    // Set complete to 'true' if the form was submitted successfully
+    complete.value = true
 }
 </script>

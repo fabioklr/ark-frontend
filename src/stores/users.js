@@ -39,12 +39,15 @@ export const useUserStore = defineStore('users', () => {
     };
 
     const handleSignup = async (credentials) => {
-        const {username, email, password} = credentials;
+        const {username, email, passcode, password} = credentials;
         if (username.length < 3) {
             return errorMessage.value = 'Der Benutzername muss mindestens 3 Zeichen lang sein.';
         }
         if (!validateEmail(email)) {
             return errorMessage.value = 'Bitte gib eine gültige E-Mail Adresse ein.';
+        }
+        if (passcode.length != 8) {
+            return errorMessage.value = 'Den Passcode kennen nur autorisierte Personen. Fragen Sie den Administrator persönlich an.';
         }
         if (password.length < 6) {
             return errorMessage.value = 'Das Passwort muss mindestens 6 Zeichen lang sein.';
@@ -54,6 +57,7 @@ export const useUserStore = defineStore('users', () => {
         const data = {
             "username": username,
             "email": email,
+            "passcode": passcode,
             "emailVisibility": true,
             "password": password,
             "passwordConfirm": password,

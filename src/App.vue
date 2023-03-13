@@ -51,9 +51,9 @@
 
 <script setup>
 import { onMounted, ref, watchEffect } from 'vue';
-import { RouterView, useRouter } from 'vue-router';
-import AuthModal from './components/AuthModal.vue';
+import { RouterView, useRouter, useRoute } from 'vue-router';
 import SiteButton from './components/SiteButton.vue';
+import AuthModal from './components/AuthModal.vue';
 import { useUserStore } from './stores/users';
 import { useProjectStore } from './stores/projects';
 import { storeToRefs } from 'pinia';
@@ -66,6 +66,7 @@ const userStore = useUserStore();
 const projectStore = useProjectStore();
 const { user } = storeToRefs(userStore);
 const router = useRouter();
+const route = useRoute();
 
 onMounted(() => {
     // Auth refresh
@@ -87,9 +88,9 @@ const createNewProject = () => {
 }
 
 watchEffect(() => {
-    if (window.location.pathname === '/signup') {
+    if (route.path === '/signup') {
         showModal.value = true;
-    } else if (window.location.pathname === '/login') {
+    } else if (route.path === '/login') {
         showModal.value = true;
         isLogin.value = true;
     } else {

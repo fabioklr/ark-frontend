@@ -1,9 +1,12 @@
 /** @type {import('tailwindcss').Config} */
+
+const FormKitVariants = require('@formkit/themes/tailwindcss')
+
 module.exports = {
   content: [
     "./index.html",
     "./src/**/*.{vue,js,ts,jsx,tsx}",
-    "./node_modules/flowbite/**/*.js",
+    './node_modules/@formkit/themes/dist/tailwindcss/genesis/index.cjs'
   ],
   theme: {
     extend: {
@@ -17,10 +20,6 @@ module.exports = {
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
       },
-      gridTemplateRows: {
-        // Simple 8 row grid
-        '8': 'repeat(8, minmax(0, 1fr))',
-      }
     },
     container: {
       padding: '2rem',
@@ -31,5 +30,5 @@ module.exports = {
       'md': '768px',
     },
   },
-  plugins: []
+  plugins: [FormKitVariants]
 }
