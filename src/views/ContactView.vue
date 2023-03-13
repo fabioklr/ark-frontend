@@ -10,7 +10,6 @@
                 type="form"
                 :actions="false"
                 @submit="formSubmit"
-                @submit-invalid="formSubmit"
                 form-class="w-full">
                 <FormKit
                     type="text"
