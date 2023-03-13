@@ -7,7 +7,7 @@ export const useProjectStore = defineStore('projects', () => {
 
     const getProjects = async () => {
         const response = await pb.collection('projects').getFullList({
-            sort: 'created'
+            sort: '-year_completed'
         });
         
         projects.value = response;

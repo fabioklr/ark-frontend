@@ -24,6 +24,15 @@
                   type="email"
                   required>
               </div>
+              <div class="mb-4">
+                <input
+                  v-if="!isLogin"
+                  v-model="userCredentials.passcode"
+                  class="border rounded-lg py-2 px-3 w-full"
+                  placeholder="Code"
+                  type="text"
+                  required>
+              </div>
               <div @keyup.enter="formSubmit" class="mb-4">
                 <input
                   v-model="userCredentials.password"
@@ -32,8 +41,13 @@
                   type="password"
                   required>
               </div>
+              <div
+                v-if="!isLogin"
+                class="my-4 w-full flex justify-center">
+                <vue-hcaptcha sitekey="f57d8a5c-4419-470f-afab-8f05bb721b44" size="compact"></vue-hcaptcha>
+              </div>
               <p v-if="errorMessage" class="text-red-500 mb-4">{{ errorMessage }}</p>
-              <div class="flex items-center justify-between">
+              <div class="flex gap-4 items-center justify-evenly text-xs">
                 <!-- Submit button -->
                 <SiteButton @click="formSubmit" :magenta="true" :button-text="buttonText" />
                 <!-- Cancel button -->
@@ -49,11 +63,12 @@
   
 
 <script setup>
-import { defineEmits, reactive, ref } from 'vue';
+import { reactive } from 'vue';
 import { useUserStore } from '@/stores/users.js';
 import { useRouter } from 'vue-router';
 import { storeToRefs } from 'pinia';
 import SiteButton from '@/components/SiteButton.vue';
+import VueHcaptcha from '@hcaptcha/vue3-hcaptcha';
 
 const props = defineProps({
   showModal: Boolean,
@@ -68,6 +83,7 @@ const { errorMessage, user } = storeToRefs(userStore);
 const userCredentials = reactive({
     username: '',
     email: '',
+    passcode: '',
     password: ''
 })
 const router = useRouter();
@@ -75,6 +91,7 @@ const router = useRouter();
 const clearUserCredentials = () => {
   userCredentials.username = '';
   userCredentials.email = '';
+  userCredentials.passcode = '';
   userCredentials.password = '';
 }
 

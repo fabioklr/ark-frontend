@@ -22,15 +22,24 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, ref, watchEffect } from 'vue'
 import ProjectCard from '../components/ProjectCard.vue'
 import SiteButton from '../components/SiteButton.vue'
 import { useProjectStore } from '../stores/projects';
 import { storeToRefs } from 'pinia';
+import { useRoute } from 'vue-router';
 
 const projectStore = useProjectStore();
 const { projects } = storeToRefs(projectStore);
 const numberOfProjectsToDisplay = ref(3);
+const route = useRoute();
+
+// If the URL ends with '/projekte', set the number of projects to display to 10
+watchEffect(() => {
+    if (route.path === '/projekte') {
+        numberOfProjectsToDisplay.value = 10;
+    }
+});
 
 // Create a new computed property that returns a subset of the projects array
 const slicedProjects = computed(() => projects.value.slice(0, numberOfProjectsToDisplay.value));
