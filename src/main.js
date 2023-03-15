@@ -1,28 +1,16 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-import './style.css'
-import HomePage from './components/HomePage.vue';
-import ContactForm from './components/ContactForm.vue';
-import AllProjects from './components/AllProjects.vue';
-import ProjectDetails from './components/ProjectDetails.vue';
-import AboutCompany from './components/AboutCompany.vue';
-import { createRouter, createWebHistory } from 'vue-router';
-
-const routes = [
-    { path: '/', name: 'Home', component: HomePage },
-    { path: '/projekte', name: 'Projects', component: AllProjects },
-    { path: '/projekte/:id', name: 'Project-Details', component: ProjectDetails },
-    { path: '/unternehmen', name: 'About', component: AboutCompany },
-    { path: '/kontakt', name: 'Contact', component: ContactForm },
-  ]
-
-const router = createRouter({
-    history: createWebHistory(),
-    routes,
-})
+import './assets/style.css'
+import router from './router'
+import { createPinia } from 'pinia'
+import { plugin, defaultConfig } from '@formkit/vue'
+import config from '../formkit.config.js'
 
 const app = createApp(App)
+const pinia = createPinia()
 
 app.use(router)
+app.use(pinia)
+app.use(plugin, defaultConfig(config))
 
 app.mount('#app')
