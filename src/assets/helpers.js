@@ -3,13 +3,13 @@ import mapboxgl from 'mapbox-gl';
 
 const opencageApiKey = import.meta.env.VITE_OPENCAGE_API_KEY;
 const mapboxApiKey = import.meta.env.VITE_MAPBOX_API_KEY;
-
-export const getCoordinates = async (address) => {
-  const data = await opencage.geocode({ q: address, key: opencageApiKey });
+// Forward geocode the location string to get the coordinates
+export const getCoordinates = async (location) => {
+  const data = await opencage.geocode({ q: location, key: opencageApiKey });
 
   return data;
 };
-
+// Create a map with markers for each project
 export const createMap = (projects, redirectFunction) => {
   const map = new mapboxgl.Map({
     accessToken: mapboxApiKey,
@@ -21,22 +21,22 @@ export const createMap = (projects, redirectFunction) => {
 
   const nav = new mapboxgl.NavigationControl();
   map.addControl(nav, 'top-left');
-  console.log(projects)
-
   // Create a marker for each project in projects
   projects.forEach((project) => {
     const el = document.createElement('div');
     el.innerHTML = `&#127959;`;
     el.style.fontSize = '30px';
-
+    // Extract the city's or village's name from the formatted location string
+    const projectLocationCleaned = project.location.formatted.split(',')[0].replace(/[\d\s]/g, '');
+    // Add a popup to the marker that links to the project's page
     const popup = new mapboxgl.Popup({ 
       offset: 25,
       closeButton: false,
       closeOnMove: true,
     })
       .setHTML(`<div>
-                  <a href="${window.location.href}/${project.id}">${project.title}</a>
-                  <p>${project.location.components.city}</p>
+                  <a href="${window.location.href}/${project.id}" class="font-bold">${project.title}</a>
+                  <p>${projectLocationCleaned}, ${project.year_completed.slice(0, 4)}</p>
                 </div>`);
 
     new mapboxgl.Marker(el)
