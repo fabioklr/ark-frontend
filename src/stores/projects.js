@@ -9,7 +9,7 @@ export const useProjectStore = defineStore('projects', () => {
         const response = await pb.collection('projects').getFullList({
             sort: '-year_completed'
         });
-        
+        console.log(response);
         projects.value = response;
     };
     

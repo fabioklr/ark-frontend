@@ -33,9 +33,21 @@
                     type="date"
                     name="date"
                     outer-class="mb-5"
+                    help="Geben Sie das Datum ein, an dem das Objekt fertiggestellt wurde."
                     label-class="block mb-1 font-bold text-sm"
                     wrapper-class="flex justify-center"
-                    inner-class="bg-white w-full max-w-xl" />
+                    inner-class="bg-white w-full max-w-xl"
+                    help-class="text-white text-center" />
+                <FormKit
+                    type="text"
+                    name="location"
+                    minlength=3
+                    maxlength=30
+                    help="Geben Sie die Adresse, PLZ und den Ort ein, wo das Objekt gebaut wurde."
+                    placeholder="Ort"
+                    wrapper-class="flex justify-center"
+                    inner-class="bg-white w-full max-w-xl"
+                    help-class="text-white text-center" />
                 <FormKit
                     type="file"
                     name="photos"
@@ -60,18 +72,21 @@
 import { ref } from 'vue'
 import { pb } from '../assets/pocketbase'
 import SiteButton from '../components/SiteButton.vue'
+import { getCoordinates } from '../assets/helpers'
 
 const projectForm = ref(null);
 const complete = ref(false);
 
 const submitHandler = async () => {
     const data = projectForm.value.node
-
+    const locationData = await getCoordinates(data.value.location)
+    console.log(locationData.results[0])
     const body = new FormData()
     // We can append other data to our form data:
     body.append('title', data.value.title)
     body.append('description', data.value.description)
     body.append('year_completed', data.value.date)
+    body.append('location', JSON.stringify(locationData.results[0]))    
     body.append('user', pb.authStore.model.id)
     data.value.photos.forEach((fileItem) => {
         body.append('photos', fileItem.file)
