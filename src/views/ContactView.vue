@@ -46,7 +46,7 @@
                 <vue-hcaptcha
                     ref="hcaptcha"
                     :sitekey="hcaptchaKey"
-                    size="invisible"
+                    size="compact"
                     theme="dark" />
             </div>
             <div v-if="!complete" class="mb-12 mt-6 flex justify-center">
@@ -69,10 +69,9 @@ const hcaptchaKey = ref(import.meta.env.VITE_HCAPTCHA_KEY);
 const hcaptcha = ref(null);
 
 const submitHandler = () => {
+    hcaptcha.value.execute();
     const validationMessages = getValidationMessages(contactForm.value.node)
-
     if (!validationMessages.size) {
-        hcaptcha.value.execute();
         const data = contactForm.value.node;
         const templateParams = {
             user_name: data.value.name,

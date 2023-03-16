@@ -3,13 +3,10 @@
         <div :class="{ 'blur-sm': showMenu }">
             <div class="text-white items-center px-4 py-6 flex justify-between">
                 <router-link :to="{name: 'home'}" class="text-xl italic font-bold z-20">architektur rolf keller</router-link>
-                <button
-                    v-if="windowWidth < 768"
-                    @click="showMenu = !showMenu" 
-                    class="md:hidden cursor-pointer text-xl">
+                <div v-if="windowWidth < 768" @click="showMenu = !showMenu" class="text-xl">
                         <i v-if="showMenu" class="fa-sharp fa-solid fa-xmark"></i>
                         <i v-else class="fa-sharp fa-solid fa-bars"></i>
-                </button>
+                </div>
                 <ul v-else class="flex flex-row">
                     <li class="mx-4 my-0 opacity-100 self-center">
                         <router-link :to="{name: 'projects'}" class="font-semibold hover:text-gray">Projekte</router-link>
