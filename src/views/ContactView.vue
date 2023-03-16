@@ -9,7 +9,6 @@
                 ref="contactForm"
                 type="form"
                 :actions="false"
-                @submit="formSubmit"
                 form-class="w-full">
                 <FormKit
                     type="text"
@@ -45,9 +44,9 @@
                 v-if="!complete"
                 class="my-4 w-full flex justify-center">
                 <vue-hcaptcha
-                    id="hcaptcha"
-                    sitekey=hcaptchaKey
-                    size="compact"
+                    ref="hcaptcha"
+                    :sitekey="hcaptchaKey"
+                    size="invisible"
                     theme="dark" />
             </div>
             <div v-if="!complete" class="mb-12 mt-6 flex justify-center">
@@ -67,12 +66,13 @@ import { getValidationMessages } from '@formkit/validation';
 const contactForm = ref(null);
 const complete = ref(false);
 const hcaptchaKey = ref(import.meta.env.VITE_HCAPTCHA_KEY);
+const hcaptcha = ref(null);
 
 const submitHandler = () => {
     const validationMessages = getValidationMessages(contactForm.value.node)
 
     if (!validationMessages.size) {
-        hcaptcha.execute();
+        hcaptcha.value.execute();
         const data = contactForm.value.node;
         const templateParams = {
             user_name: data.value.name,
