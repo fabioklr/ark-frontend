@@ -44,7 +44,12 @@
               <div
                 v-if="!isLogin"
                 class="my-4 w-full flex justify-center">
-                <vue-hcaptcha sitekey="f57d8a5c-4419-470f-afab-8f05bb721b44" size="compact"></vue-hcaptcha>
+                <vue-hcaptcha
+                    ref="hcaptcha"
+                    :sitekey="hcaptchaKey"
+                    size="compact"
+                    theme="dark"
+                    @verify="onVerify" />
               </div>
               <p v-if="errorMessage" class="text-red-500 mb-4">{{ errorMessage }}</p>
               <div class="flex gap-4 items-center justify-evenly text-xs">
@@ -63,7 +68,7 @@
   
 
 <script setup>
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
 import { useUserStore } from '@/stores/users.js';
 import { useRouter } from 'vue-router';
 import { storeToRefs } from 'pinia';
@@ -75,7 +80,6 @@ const props = defineProps({
   isLogin: Boolean
 })
 
-const emits = defineEmits(['update-show-modal', 'update-is-login']);
 const title = props.isLogin ? 'Login' : 'Registrierung';
 const buttonText = props.isLogin ? 'Login' : 'Registrieren';
 const userStore = useUserStore();
@@ -87,30 +91,35 @@ const userCredentials = reactive({
     password: ''
 })
 const router = useRouter();
+const hcaptchaKey = import.meta.env.VITE_HCAPTCHA_KEY;
+const hcaptcha = ref(null);
+const verified = ref(false);
 
+const emits = defineEmits(['update-show-modal', 'update-is-login']);
 const clearUserCredentials = () => {
   userCredentials.username = '';
   userCredentials.email = '';
   userCredentials.passcode = '';
   userCredentials.password = '';
 }
-
 const closeModal = () => {
     emits('update-show-modal', false);
     clearUserCredentials();
 };
-
 const keepModal = (event) => {
     event.stopPropagation();
 };
-
+const onVerify = () => {
+  verified.value = true;
+}
 const formSubmit = async () => {
   if (props.isLogin) {
     await userStore.handleLogin({
       email: userCredentials.email,
       password: userCredentials.password
     });
-  } else {
+  }
+  if (!props.isLogin && verified.value) {
     await userStore.handleSignup(userCredentials);
   }
   if (user.value) {
