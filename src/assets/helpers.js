@@ -1,8 +1,8 @@
 import opencage from 'opencage-api-client';
 import mapboxgl from 'mapbox-gl';
 
-const opencageApiKey = import.meta.env.VITE_OPENCAGE_API_KEY;
-const mapboxApiKey = import.meta.env.VITE_MAPBOX_API_KEY;
+const opencageApiKey = import.meta.env.VITE_OPENCAGE_KEY;
+const mapboxApiKey = import.meta.env.VITE_MAPBOX_KEY;
 // Forward geocode the location string to get the coordinates
 export const getCoordinates = async (location) => {
   const data = await opencage.geocode({ q: location, key: opencageApiKey });
