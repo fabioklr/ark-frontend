@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="text-white text-4xl text-center font-bold mt-16 mb-8">
+        <div v-if="!complete" class="text-white text-4xl text-center font-bold mt-16 mb-8">
             <h1>Kontakt</h1>
         </div>
         <div class="flex flex-col items-center">
@@ -44,7 +44,11 @@
             <div
                 v-if="!complete"
                 class="my-4 w-full flex justify-center">
-                <vue-hcaptcha sitekey="f57d8a5c-4419-470f-afab-8f05bb721b44" size="compact"></vue-hcaptcha>
+                <vue-hcaptcha
+                    id="hcaptcha"
+                    sitekey="f57d8a5c-4419-470f-afab-8f05bb721b44"
+                    size="compact"
+                    theme="dark" />
             </div>
             <div v-if="!complete" class="mb-12 mt-6 flex justify-center">
                 <SiteButton @click="submitHandler" button-text="Senden" />
@@ -65,8 +69,9 @@ const complete = ref(false);
 
 const submitHandler = () => {
     const validationMessages = getValidationMessages(contactForm.value.node)
-    console.log(validationMessages)
+
     if (!validationMessages.size) {
+        hcaptcha.execute();
         const data = contactForm.value.node;
         const templateParams = {
             user_name: data.value.name,
@@ -74,7 +79,7 @@ const submitHandler = () => {
             message: data.value.message,
         }
 
-        emailjs.send('service_rkwh0oc', 'contact_form', templateParams, '6VxtryOYsbCjFWTxj')
+        emailjs.send('service_rkwh0oc', 'contact_form', templateParams, import.meta.env.VITE_EMAILJS_API_KEY)
 
         complete.value = true;
     };
