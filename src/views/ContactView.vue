@@ -47,7 +47,8 @@
                     ref="hcaptcha"
                     :sitekey="hcaptchaKey"
                     size="compact"
-                    theme="dark" />
+                    theme="dark"
+                    @verify="onVerify" />
             </div>
             <div v-if="!complete" class="mb-12 mt-6 flex justify-center">
                 <SiteButton @click="submitHandler" button-text="Senden" />
@@ -67,11 +68,16 @@ const contactForm = ref(null);
 const complete = ref(false);
 const hcaptchaKey = ref(import.meta.env.VITE_HCAPTCHA_KEY);
 const hcaptcha = ref(null);
+const verified = ref(false);
+
+const onVerify = () => {
+    verified.value = true;
+}
 
 const submitHandler = () => {
     hcaptcha.value.execute();
     const validationMessages = getValidationMessages(contactForm.value.node)
-    if (!validationMessages.size) {
+    if (!validationMessages.size && verified.value) {
         const data = contactForm.value.node;
         const templateParams = {
             user_name: data.value.name,
