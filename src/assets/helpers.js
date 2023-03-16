@@ -10,7 +10,7 @@ export const getCoordinates = async (location) => {
   return data;
 };
 // Create a map with markers for each project
-export const createMap = (projects, redirectFunction) => {
+export const createMap = (projects) => {
   const map = new mapboxgl.Map({
     accessToken: mapboxApiKey,
     container: 'map',
@@ -30,14 +30,16 @@ export const createMap = (projects, redirectFunction) => {
     const projectLocationCleaned = project.location.formatted.split(',')[0].replace(/[\d\s]/g, '');
     // Add a popup to the marker that links to the project's page
     const popup = new mapboxgl.Popup({ 
-      offset: 25,
       closeButton: false,
       closeOnMove: true,
     })
       .setHTML(`<div>
-                  <a href="${window.location.href}/${project.id}" class="font-bold">${project.title}</a>
+                  <h1 class="font-bold">${project.title}</h1>
                   <p>${projectLocationCleaned}, ${project.year_completed.slice(0, 4)}</p>
-                </div>`);
+                </div>`)
+      .setOffset(25)
+      .addClassName(`${project.id}`)
+      .addClassName('project-popup')
 
     new mapboxgl.Marker(el)
       .setLngLat([project.location.geometry.lng, project.location.geometry.lat])
