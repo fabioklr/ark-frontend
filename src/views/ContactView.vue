@@ -46,7 +46,7 @@
                 class="my-4 w-full flex justify-center">
                 <vue-hcaptcha
                     id="hcaptcha"
-                    sitekey="f57d8a5c-4419-470f-afab-8f05bb721b44"
+                    sitekey=hcaptchaKey
                     size="compact"
                     theme="dark" />
             </div>
@@ -66,6 +66,7 @@ import { getValidationMessages } from '@formkit/validation';
 
 const contactForm = ref(null);
 const complete = ref(false);
+const hcaptchaKey = ref(import.meta.env.VITE_HCAPTCHA_KEY);
 
 const submitHandler = () => {
     const validationMessages = getValidationMessages(contactForm.value.node)
@@ -79,7 +80,7 @@ const submitHandler = () => {
             message: data.value.message,
         }
 
-        emailjs.send('service_rkwh0oc', 'contact_form', templateParams, import.meta.env.VITE_EMAILJS_API_KEY)
+        emailjs.send('service_rkwh0oc', 'contact_form', templateParams, import.meta.env.VITE_EMAILJS_KEY)
 
         complete.value = true;
     };
