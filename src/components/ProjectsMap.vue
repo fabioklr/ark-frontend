@@ -13,19 +13,35 @@ const projectStore = useProjectStore();
 const { projects } = storeToRefs(projectStore);
 const router = useRouter();
 
-const redirectProject = (id) => {
-    router.push({ name: 'project', params: { id } });
-  };
+const openProject = (projectId) => {
+  router.push({ name: 'project-details', params: { id: projectId }
+  })
+}
 
 onMounted(() => {
-  const map = createMap(projects.value, redirectProject);
+  createMap(projects.value);
+  // Select the target node
+  const targetNode = document.getElementById("map");
+  // Options for the observer (which mutations to observe)
+  const config = { childList: true, subtree: true };
+  // Create a new observer object
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      // Check if the mutation added a node with class ".project-popup"
+      const addedNodes = mutation.addedNodes;
+      for (let i = 0; i < addedNodes.length; i++) {
+        if (addedNodes[i].classList && addedNodes[i].classList.contains("project-popup")) {
+          addedNodes[i].addEventListener("click", () => {
+            openProject(addedNodes[i].classList[0]);
+          });
+        }
+      }
+    });
+  });
+  // Start observing the target node for mutations
+  observer.observe(targetNode, config);
 });
 </script>
-
-<script>
-
-</script>
-
 
 <style>
 .mapboxgl-canvas-container {

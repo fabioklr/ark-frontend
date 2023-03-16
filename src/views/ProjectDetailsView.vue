@@ -58,7 +58,6 @@ const route = useRoute();
 const projectStore = useProjectStore();
 const { projects } = storeToRefs(projectStore);
 const project = projects.value.find(project => project.id === route.params.id);
-console.log(project.photos);
 const photoCount = project.photos.length;
 const currentSlide = ref(1);
 const autoPlayEnabled = ref(true);
