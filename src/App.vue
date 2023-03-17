@@ -1,13 +1,13 @@
 <template>
-    <div class="bg-gradient-to-t from-magenta-haze px-4 to-eerie-black min-h-screen">
+    <div class="bg-gradient-to-t from-magenta-haze px-4 to-eerie-black min-h-screen text-white">
         <div :class="{ 'blur-sm': showMenu }">
             <div class="text-white items-center px-4 py-6 flex justify-between">
-                <router-link :to="{name: 'home'}" class="text-xl italic font-bold z-20">architektur rolf keller</router-link>
+                <router-link :to="{name: 'home'}" class="text-xl md:text-3xl italic font-bold z-20">architektur rolf keller</router-link>
                 <div v-if="windowWidth < 768" @click="showMenu = !showMenu" class="text-xl">
                         <i v-if="showMenu" class="fa-sharp fa-solid fa-xmark"></i>
                         <i v-else class="fa-sharp fa-solid fa-bars"></i>
                 </div>
-                <ul v-else class="flex flex-row">
+                <ul v-else class="flex flex-row md:text-2xl">
                     <li class="mx-4 my-0 opacity-100 self-center">
                         <router-link :to="{name: 'projects'}" class="font-semibold hover:text-gray">Projekte</router-link>
                     </li>
@@ -26,7 +26,7 @@
                 <SiteButton buttonText="Logout" @click="logoutSubmit" />
             </div>
             <div class="bottom-0 inset-x-0 top-0 text-white items-end py-6 text-xs col-span-full flex justify-between z-10 h-12">
-                <p>Copyright &copy; {{ new Date().getFullYear() }} by Rolf Keller.<br> All rights reserved.</p>
+                <p>Copyright &copy; {{ new Date().getFullYear() }} Architektur Rolf Keller.<br> Alle Rechte vorbehalten.</p>
                 <p>ark@arkeller.ch</p>
             </div>
         </div>
@@ -49,7 +49,7 @@ import SiteButton from './components/SiteButton.vue';
 import AuthModal from './components/AuthModal.vue';
 import MenuModal from './components/MenuModal.vue';
 import { useUserStore } from './stores/users';
-import { useProjectStore } from './stores/projects';
+import { useProjectsStore } from './stores/projects';
 import { storeToRefs } from 'pinia';
 
 const showMenu = ref(false)
@@ -57,7 +57,7 @@ const showModal = ref(false)
 const isLogin = ref(false)
 const windowWidth = ref(window.innerWidth);
 const userStore = useUserStore();
-const projectStore = useProjectStore();
+const projectStore = useProjectsStore();
 const { user } = storeToRefs(userStore);
 const router = useRouter();
 const route = useRoute();

@@ -1,9 +1,7 @@
 <template>
     <div>
-        <div class="text-white text-4xl text-center font-bold mt-16 mb-8">
-            <h1>Neues Projekt</h1>
-        </div>
-        <div class="flex flex-col items-center">
+        <h1 v-if="!complete" class="text-4xl text-center font-bold mt-16 mb-8">Neues Projekt</h1>
+        <div class="flex flex-col items-center text-eerie-black">
             <FormKit
                 v-if="!complete"
                 ref="projectForm"
