@@ -24,9 +24,7 @@ const routes = [
     {
         path: '/projekte/:id',
         name: 'project-details',
-        component: () => import('../views/ProjectDetailsView.vue'),
-        // anybody can read a project
-        meta: { requiresAuth: false }
+        component: () => import('../views/ProjectDetailsView.vue')
     },
     { 
         path: '/unternehmen',

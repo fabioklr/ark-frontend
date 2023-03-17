@@ -15,10 +15,10 @@ export const createMap = (projects) => {
     accessToken: mapboxApiKey,
     container: 'map',
     style: 'mapbox://styles/mapbox/dark-v10',
-    center: [8.231750518993502, 46.79865190629966],
-    zoom: 6,
+    center: [8.540518785547745, 47.40145937203409],
+    zoom: 8,
   });
-
+  
   const nav = new mapboxgl.NavigationControl();
   map.addControl(nav, 'top-left');
   // Create a marker for each project in projects
@@ -33,7 +33,7 @@ export const createMap = (projects) => {
       closeButton: false,
       closeOnMove: true,
     })
-      .setHTML(`<div>
+      .setHTML(`<div class="text-eerie-black cursor-pointer">
                   <h1 class="font-bold">${project.title}</h1>
                   <p>${projectLocationCleaned}, ${project.year_completed.slice(0, 4)}</p>
                 </div>`)

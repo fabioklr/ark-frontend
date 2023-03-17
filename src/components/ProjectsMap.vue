@@ -5,11 +5,11 @@
 <script setup>
 import { onMounted } from 'vue';
 import { createMap } from '../assets/helpers'
-import { useProjectStore } from '../stores/projects';
+import { useProjectsStore } from '../stores/projects';
 import { storeToRefs } from 'pinia';
 import { useRouter } from 'vue-router';
 
-const projectStore = useProjectStore();
+const projectStore = useProjectsStore();
 const { projects } = storeToRefs(projectStore);
 const router = useRouter();
 

@@ -1,17 +1,27 @@
-import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { pb } from '../assets/pocketbase'
 
-export const useProjectStore = defineStore('projects', () => {
-    const projects = ref([]);
-
-    const getProjects = async () => {
-        const response = await pb.collection('projects').getFullList({
-            sort: '-year_completed'
+export const useProjectsStore = defineStore('projects', {
+    state: () => ({
+      projects: [],
+      singleProject: {},
+      photoCount: 0,
+        locationCleaned: '',
+        fullYear: 0,
+    }),
+    actions: {
+      async getProjects () {
+          const res = await pb.collection('projects').getFullList({sort: '-year_completed'});
+          this.projects = res;
+      },
+      async getSingleProject (id) {
+        const res = await pb.collection('projects').getOne(id, {
+            expand: 'relField1,relField2.subRelField',
         });
-        console.log(response);
-        projects.value = response;
-    };
-    
-    return { projects, getProjects }
-});
+        this.singleProject = res;
+        this.photoCount = res.photos.length;
+        this.locationCleaned = res.location.formatted.split(',')[0].replace(/[\d\s]/g, '');
+        this.fullYear = res.year_completed.slice(0, 4);
+      }
+    },
+  })

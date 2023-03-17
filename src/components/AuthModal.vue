@@ -7,7 +7,7 @@
           </div>
           <div class="p-6">
             <div>
-              <div class="mb-4">
+              <div class="mb-4 text-eerie-black">
                 <input
                   v-if="!isLogin"
                   v-model="userCredentials.username"
@@ -49,7 +49,8 @@
                     :sitekey="hcaptchaKey"
                     size="compact"
                     theme="dark"
-                    @verify="onVerify" />
+                    @verify="onVerify"
+                    @error="onError" />
               </div>
               <p v-if="errorMessage" class="text-red-500 mb-4">{{ errorMessage }}</p>
               <div class="flex gap-4 items-center justify-evenly text-xs">
@@ -95,6 +96,9 @@ const hcaptchaKey = import.meta.env.VITE_HCAPTCHA_KEY;
 const hcaptcha = ref(null);
 const verified = ref(false);
 
+const onError = (error) => {
+  errorMessage.value = error;
+}
 const emits = defineEmits(['update-show-modal', 'update-is-login']);
 const clearUserCredentials = () => {
   userCredentials.username = '';
