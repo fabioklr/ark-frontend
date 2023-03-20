@@ -16,7 +16,7 @@
                     class="text-center text-4xl font-bold mb-4 mt-12">
                     {{ projectYear[0] }}
                 </h2>
-                <div class="flex overflow-x-auto snap-x gap-8">
+                <div class="flex overflow-x-scroll snap-x gap-8">
                     <ProjectCard v-for="project in projectYear[1]" :project="project" />
                 </div>
             </div>
