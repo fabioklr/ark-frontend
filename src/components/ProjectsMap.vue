@@ -44,7 +44,12 @@ onMounted(() => {
 </script>
 
 <style>
+.mapboxgl-canvas {
+  height: 100%;
+  width: 100%;
+}
 .mapboxgl-canvas-container {
   height: 100%;
+  width: 100%;
 }
 </style>
