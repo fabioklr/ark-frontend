@@ -15,7 +15,7 @@
                     name="name"
                     minlength=3
                     maxlength=30
-                    validation="required|alpha|length:5,20"
+                    validation="required|alpha_spaces:latin|length:5,20"
                     placeholder="Vor- und Nachname"
                     wrapper-class="flex justify-center"
                     inner-class="bg-white w-full max-w-xl"

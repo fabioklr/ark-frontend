@@ -1,10 +1,10 @@
 <template>
-    <div class="md:mt-16">
-        <div v-if="showMap" class="flex flex-col items-center w-full h-96 md:h-[45vh]">
+    <div class="mt-16">
+        <div v-if="showMap" class="flex flex-col items-center w-full h-96 md:h-[64vh]">
             <!-- Header -->
             <h1 class="text-4xl text-center font-bold">Übersicht</h1>
             <!-- Map showing the projects' location -->
-            <div class="w-full h-full mt-16 md:w-1/2">
+            <div class="w-full h-full mt-16 md:w-2/3">
                 <ProjectsMap />
             </div>
         </div>
@@ -16,7 +16,7 @@
                     class="text-center text-4xl font-bold mb-4 mt-12">
                     {{ projectYear[0] }}
                 </h2>
-                <div class="flex overflow-x-auto snap-x gap-8">
+                <div class="flex overflow-x-scroll snap-x gap-8">
                     <ProjectCard v-for="project in projectYear[1]" :project="project" />
                 </div>
             </div>

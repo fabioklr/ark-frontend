@@ -86,10 +86,6 @@ const submitHandler = async () => {
     body.append('year_completed', data.value.date)
     body.append('location', JSON.stringify(locationData.results[0]))    
     body.append('user', pb.authStore.model.id)
-    data.value.photos.forEach((fileItem) => {
-        body.append('photos', fileItem.file)
-    })
-
     // upload and create new record
     await pb.collection('projects').create(body);
     // Set complete to 'true' if the form was submitted successfully
