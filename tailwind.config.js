@@ -16,14 +16,7 @@ module.exports = {
         'gray': '#818081',
         'chinese-violet': '#8D5974',
         'magenta-haze': '#983267',
-      },
-      backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-      },
-    },
-    container: {
-      padding: '2rem',
-      center: true,
+      }
     },
     screens: {
       'sm': '640px',

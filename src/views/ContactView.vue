@@ -17,16 +17,18 @@
                     maxlength=30
                     validation="required|alpha_spaces:latin|length:5,20"
                     placeholder="Vor- und Nachname"
-                    wrapper-class="flex justify-center"
-                    inner-class="bg-white w-full max-w-xl"
+                    outer-class="flex flex-col items-center"
+                    wrapper-class="w-full"
+                    inner-class="bg-white"
                     message-class="text-center" />
                 <FormKit
                     type="email"
                     name="email"
                     placeholder="Ihre E-Mail"
                     validation="required|email"
-                    wrapper-class="flex justify-center"
-                    inner-class="bg-white w-full max-w-xl"
+                    outer-class="flex flex-col items-center"
+                    wrapper-class="w-full"
+                    inner-class="bg-white"
                     message-class="text-center" />
                 <FormKit
                     type="textarea"
@@ -34,13 +36,12 @@
                     validation="required|length:5,500"
                     rows=15
                     placeholder="Nachricht"
-                    outer-class="mb-5"
-                    label-class="block mb-1 font-bold text-sm"
-                    wrapper-class="flex justify-center"
-                    inner-class="bg-white w-full max-w-xl"
+                    outer-class="flex flex-col items-center"
+                    wrapper-class="w-full"
+                    inner-class="bg-white"
                     message-class="text-center" />
             </FormKit>
-            <div v-else class="text-4xl text-center font-bold mt-16 mb-8">
+            <div v-else class="text-4xl text-center text-white font-bold mt-16 mb-8">
                 <h1>Nachricht gesendet &#128233; <br> Gerne werde ich mich bei Ihnen melden.</h1>
             </div>
             <div
@@ -68,7 +69,7 @@ import { ref } from 'vue'
 import SiteButton from '@/components/SiteButton.vue'
 import VueHcaptcha from '@hcaptcha/vue3-hcaptcha';
 import emailjs from '@emailjs/browser';
-import { getValidationMessages } from '@formkit/validation';
+import * as formkitValidation from '@formkit/validation';
 
 const contactForm = ref(null);
 const complete = ref(false);
@@ -83,7 +84,7 @@ const onVerify = () => {
 
 const submitHandler = () => {
     hcaptcha.value.execute();
-    const validationMessages = getValidationMessages(contactForm.value.node)
+    const validationMessages = formkitValidation.getValidationMessages(contactForm.value.node);
     if (!validationMessages.size && verified.value) {
         const data = contactForm.value.node;
         const templateParams = {
