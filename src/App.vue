@@ -7,18 +7,18 @@
                         <i v-if="showMenu" class="fa-sharp fa-solid fa-xmark"></i>
                         <i v-else class="fa-sharp fa-solid fa-bars"></i>
                 </div>
-                <ul v-else class="flex flex-row md:text-2xl">
-                    <li class="mx-4 my-0 opacity-100 self-center">
+                <div v-else class="flex flex-row md:text-2xl">
+                    <div class="mx-4 my-0 opacity-100 self-center">
                         <router-link :to="{name: 'projects'}" class="font-semibold hover:text-gray">Projekte</router-link>
-                    </li>
-                    <li class="mx-4 my-0 opacity-100 self-center">
+                    </div>
+                    <div class="mx-4 my-0 opacity-100 self-center">
                         <router-link :to="{name: 'about'}" class="font-semibold hover:text-gray">Unternehmen</router-link>
-                    </li>
+                    </div>
                     <router-link :to="{name: 'contact'}" class="bg-magenta-haze hover:bg-chinese-violet font-sm
                             text-white font-semibold skew-x-[-8deg] py-1.5 px-4 opacity-100">
                         Kontakt
                     </router-link>
-                </ul>
+                </div>
             </div>
             <router-view />
             <div v-if="user" class="flex justify-evenly mb-8">

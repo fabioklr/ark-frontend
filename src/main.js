@@ -5,6 +5,7 @@ import router from './router'
 import { createPinia } from 'pinia'
 import { plugin, defaultConfig } from '@formkit/vue'
 import config from '../formkit.config.js'
+import '@formkit/themes/genesis'
 
 const app = createApp(App)
 const pinia = createPinia()
