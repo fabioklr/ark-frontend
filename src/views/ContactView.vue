@@ -69,7 +69,6 @@ import { ref } from 'vue'
 import SiteButton from '@/components/SiteButton.vue'
 import VueHcaptcha from '@hcaptcha/vue3-hcaptcha';
 import emailjs from '@emailjs/browser';
-import * as formkitValidation from '@formkit/validation';
 
 const contactForm = ref(null);
 const complete = ref(false);
@@ -83,10 +82,7 @@ const onVerify = () => {
 }
 
 const submitHandler = () => {
-    console.log('done');
-    const validationMessages = formkitValidation.getValidationMessages(contactForm.value.node);
-    console.log('done')
-    if (!validationMessages.size && verified.value) {
+    if (verified.value) {
         const data = contactForm.value.node;
         const templateParams = {
             user_name: data.value.name,
