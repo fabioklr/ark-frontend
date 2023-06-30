@@ -83,7 +83,6 @@ const onVerify = () => {
 }
 
 const submitHandler = () => {
-    hcaptcha.value.execute();
     const validationMessages = formkitValidation.getValidationMessages(contactForm.value.node);
     if (!validationMessages.size && verified.value) {
         const data = contactForm.value.node;
