@@ -83,7 +83,9 @@ const onVerify = () => {
 }
 
 const submitHandler = () => {
+    console.log('done');
     const validationMessages = formkitValidation.getValidationMessages(contactForm.value.node);
+    console.log('done')
     if (!validationMessages.size && verified.value) {
         const data = contactForm.value.node;
         const templateParams = {
