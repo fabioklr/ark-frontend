@@ -20,7 +20,7 @@
                     </router-link>
                 </div>
             </div>
-            <router-view />
+            <router-view v-if="!isLoading" />
             <div v-if="user" class="flex justify-evenly mb-8">
                 <SiteButton buttonText="Neues Projekt" @click="createNewProject" />
                 <SiteButton buttonText="Logout" @click="logoutSubmit" />
@@ -61,12 +61,14 @@ const projectStore = useProjectsStore();
 const { user } = storeToRefs(userStore);
 const router = useRouter();
 const route = useRoute();
+const isLoading = ref(true);
 
-onMounted(() => {
+onMounted(async () => {
     // Auth refresh
     userStore.getUser();
     // Get projects from API
-    projectStore.getProjects();
+    await projectStore.getProjects();
+    isLoading.value = false;
     // Listen to window resize event to close the modal when the window size is changed manually.
     window.addEventListener('resize', () => {
         windowWidth.value = window.innerWidth;

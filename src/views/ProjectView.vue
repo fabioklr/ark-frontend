@@ -10,20 +10,21 @@
         </div>
         <div class="flex flex-col">
             <!-- Card with project information -->
-            <div v-for="projectYear in projectsByYear.slice(0, yearsToDisplay)">
-                <!-- Header with project's date of completion if first project of the year -->
+            <div v-for="projectType in projectsByType.slice(0, typesToDisplay)">
+                <!-- Header with project type -->
                 <h2 
                     class="text-center text-4xl font-bold mb-4 mt-12">
-                    {{ projectYear[0] }}
+                    {{ projectType[0] }}
                 </h2>
+                <!-- Cards for each project in a scrollable container -->
                 <div class="flex overflow-x-scroll snap-x gap-8">
-                    <ProjectCard v-for="project in projectYear[1]" :project="project" />
+                    <ProjectCard v-for="project in projectType[1]" :project="project" />
                 </div>
             </div>
             <div class="flex justify-evenly my-12">
                 <SiteButton 
-                    v-if="yearsToDisplay < projectsByYear.length" 
-                    @click="yearsToDisplay += 1"
+                    v-if="typesToDisplay < projectsByType.length" 
+                    @click="typesToDisplay += 1"
                     class="text-lg"
                     buttonText="Mehr">
                 </SiteButton>
@@ -46,31 +47,31 @@ const ProjectCard = defineAsyncComponent(() =>
 
 const projectStore = useProjectsStore();
 const { projects } = storeToRefs(projectStore);
-const yearsToDisplay = ref(3);
+const typesToDisplay = ref(3);
 const showMap = ref(false);
 const route = useRoute();
 
 // If the URL ends with '/projekte', set the number of projects to display to 10
 watchEffect(() => {
     if (route.path === '/projekte') {
-        yearsToDisplay.value = 7;
+        typesToDisplay.value = 7;
         showMap.value = true;
     }
 });
 
-// Create an object whose keys are the individual years of the projects and the values are all the projects of that year.
-// The object is then sorted by the year with the most recent year first.
-const projectsByYear = computed(() => {
-    const projectsByYear = {};
+// Create an object whose keys are the types of projects and the values are all the projects of that type.
+// The object is then sorted by the amount of projects per type.
+const projectsByType = computed(() => {
+    const projectsByType = {};
     projects.value.forEach(project => {
-        const year = project.year_completed.slice(0, 4);
-        if (projectsByYear[year]) {
-            projectsByYear[year].push(project);
+        if (projectsByType[project.type]) {
+            projectsByType[project.type].push(project);
         } else {
-            projectsByYear[year] = [project];
+            projectsByType[project.type] = [project];
         }
     });
-    return Object.entries(projectsByYear).sort((a, b) => b[0] - a[0]);
+    console.log(projectsByType);
+    return Object.entries(projectsByType).sort((a, b) => b[1].length - a[1].length);
 });
 </script>
 

@@ -6,7 +6,6 @@ const mapboxApiKey = import.meta.env.VITE_MAPBOX_KEY;
 // Forward geocode the location string to get the coordinates
 export const getCoordinates = async (location) => {
   const data = await opencage.geocode({ q: location, key: opencageApiKey });
-
   return data;
 };
 // Create a map with markers for each project
