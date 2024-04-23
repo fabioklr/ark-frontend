@@ -2,7 +2,7 @@
     <Suspense>
         <div class="flex flex-col items-center">
             <!-- Title -->
-            <h1 class="text-4xl text-center pt-20 pb-12 font-bold">{{ singleProject.title }}</h1>
+            <h1 class="text-4xl text-center pt-20 pb-12 font-bold">{{ singleProject.name }}</h1>
             <!-- Photo carousel -->
             <div class="relative w-full md:w-2/3 h-64 md:h-[36rem]">
                 <div v-for="(photoUrl, index) in singleProject.photos">
@@ -42,7 +42,7 @@
             </div>
             <!-- Project description, location and year of completion -->
             <p class="text-lg my-6">
-                {{ singleProject.location?.formatted?.split(',')[0].replace(/[\d\s]/g, '') + ', ' + singleProject.year_completed?.slice(0, 4) }}
+                {{ singleProject.ort + ', ' + singleProject.year_completed?.slice(0, 4) }}
             </p>
             <p class="text-xl mb-24">
                 {{ singleProject.description }}

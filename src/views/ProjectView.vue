@@ -64,13 +64,12 @@ watchEffect(() => {
 const projectsByType = computed(() => {
     const projectsByType = {};
     projects.value.forEach(project => {
-        if (projectsByType[project.type]) {
-            projectsByType[project.type].push(project);
+        if (projectsByType[project.type[0].name]) {
+            projectsByType[project.type[0].name].push(project);
         } else {
-            projectsByType[project.type] = [project];
+            projectsByType[project.type[0].name] = [project];
         }
     });
-    console.log(projectsByType);
     return Object.entries(projectsByType).sort((a, b) => b[1].length - a[1].length);
 });
 </script>
