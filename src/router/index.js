@@ -15,13 +15,6 @@ const routes = [
         component: () => import('../views/ProjectView.vue')
     },
     {
-        path: '/projekte/neu',
-        name: 'create-project',
-        component: () => import('../views/CreateProjectView.vue'),
-        // only authenticated users can create projects
-        meta: { requiresAuth: true }
-    },
-    {
         path: '/projekte/:id',
         name: 'project-details',
         component: () => import('../views/ProjectDetailsView.vue')
@@ -35,14 +28,6 @@ const routes = [
         path: '/kontakt',
         name: 'contact',
         component: () => import('../views/ContactView.vue')
-    },
-    {
-        path: '/login',
-        component: HomeView
-    },
-    {
-        path: '/signup',
-        component: HomeView
     }
   ]
 
@@ -50,13 +35,5 @@ const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes
 })
-
-router.beforeEach((to, from) => {
-    if (to.meta.requiresAuth && !pb.authStore.token) {
-      return {
-        path: '/login'
-      }
-    }
-  })
 
 export default router;

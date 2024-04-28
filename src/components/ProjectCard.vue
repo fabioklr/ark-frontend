@@ -6,7 +6,7 @@
                     bg-eerie-black rounded-lg cursor-pointer
                     grayscale hover:grayscale-0">
             <img 
-                :src="`https://docker118434-ark-backend.jcloud.ik-server.com/api/files/nbz149u8u9p575z/${project.id}/${project.photos[0]}`"
+                :src="`${backendUrl}/api/files/nbz149u8u9p575z/${project.id}/${project.photos[0]}`"
                 alt="Project image"
                 width="640"
                 height="360"
@@ -14,10 +14,13 @@
             <!-- Project card text -->
             <div class="p-4 overflow-hidden">
                 <p class="text-lg font-bold truncate">
-                    {{ project.title }}
+                    {{ project.name }}
                 </p>
                 <p class="truncate">
                     {{ project.description }}
+                </p>
+                <p>
+                    {{ project.ort }}, {{ project.year_completed.slice(0, 4) }}
                 </p>
             </div>
         </div>
@@ -29,6 +32,7 @@ import { useRouter } from 'vue-router'
 
 const { project } = defineProps(['project']);
 const router = useRouter();
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 const openProject = (projectId) => {
   router.push({ 

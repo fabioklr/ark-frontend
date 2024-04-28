@@ -15,11 +15,11 @@
                         leave-from-class="opacity-100">
                         <div v-if="currentSlide === index + 1">
                             <img 
-                                :src="`https://docker118434-ark-backend.jcloud.ik-server.com/api/files/nbz149u8u9p575z/${singleProject.id}/${photoUrl}`"
+                                :src="`${backendUrl}/api/files/nbz149u8u9p575z/${singleProject.id}/${photoUrl}`"
                                 alt="Project image"
                                 width="640"
                                 height="360"
-                                class="absolute w-full h-full object-cover rounded">
+                                class="absolute w-full h-full object-contain rounded">
                         </div>
                     </Transition>
                 </div>
@@ -69,6 +69,7 @@ const timeoutDuration = ref(5000);
 const autoPlayInterval = ref(null);
 const projectStore = useProjectsStore();
 const { projects } = storeToRefs(projectStore);
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 const nextSlide = () => {
     if (currentSlide.value < singleProject.value.photos?.length) {
@@ -104,6 +105,7 @@ const singleProject = computed(() => {
             project = p;
         }
     });
+    console.log(project);
     return project;
 });
 </script>
