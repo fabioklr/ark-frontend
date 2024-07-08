@@ -17,7 +17,7 @@ export const createMap = (projects) => {
   // Create a marker for each project in projects
   projects.forEach((project) => {
     const el = document.createElement('div');
-    el.innerHTML = `&#127959;`;
+    el.innerHTML = `🏗️`;
     el.style.fontSize = '30px';
     // Add a popup to the marker that links to the project's page
     const popup = new mapboxgl.Popup({ 

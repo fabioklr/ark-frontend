@@ -1,8 +1,8 @@
 <template>
-    <div class="mt-16">
+    <div class="mt-16 pb-12 p-4">
         <div v-if="showMap" class="flex flex-col items-center w-full h-96 md:h-[64vh]">
             <!-- Header -->
-            <h1 class="text-4xl text-center font-bold">Übersicht</h1>
+            <h1 class="text-4xl text-center font-bold">übersicht</h1>
             <!-- Map showing the projects' location -->
             <div class="w-full h-full mt-16 md:w-2/3">
                 <ProjectsMap />
@@ -21,21 +21,17 @@
                     <ProjectCard v-for="project in projectType[1]" :project="project" />
                 </div>
             </div>
-            <div class="flex justify-evenly my-12">
-                <SiteButton 
-                    v-if="typesToDisplay < projectsByType.length" 
-                    @click="typesToDisplay += 1"
-                    class="text-lg"
-                    buttonText="Mehr">
-                </SiteButton>
+            <div v-if="typesToDisplay < projectsByType.length" class="flex justify-evenly my-12">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 transform rotate-270" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
             </div>
         </div>
     </div>
 </template>
 
 <script setup>
-import { computed, ref, watchEffect, defineAsyncComponent } from 'vue'
-import SiteButton from '../components/SiteButton.vue'
+import { computed, ref, watchEffect, defineAsyncComponent, onMounted, onUnmounted } from 'vue'
 import ProjectsMap from '../components/ProjectsMap.vue'
 import { useProjectsStore } from '../stores/projects';
 import { storeToRefs } from 'pinia';
@@ -47,14 +43,13 @@ const ProjectCard = defineAsyncComponent(() =>
 
 const projectStore = useProjectsStore();
 const { projects } = storeToRefs(projectStore);
-const typesToDisplay = ref(3);
+const typesToDisplay = ref(3); // Start with 1 type displayed
 const showMap = ref(false);
 const route = useRoute();
 
 // If the URL ends with '/projekte', set the number of projects to display to 10
 watchEffect(() => {
     if (route.path === '/projekte') {
-        typesToDisplay.value = 7;
         showMap.value = true;
     }
 });
@@ -71,6 +66,23 @@ const projectsByType = computed(() => {
         }
     });
     return Object.entries(projectsByType).sort((a, b) => b[1].length - a[1].length);
+});
+
+const handleScroll = () => {
+  const bottomOfWindow = 
+    window.innerHeight + window.scrollY >= document.documentElement.offsetHeight - 100;
+
+  if (bottomOfWindow && typesToDisplay.value < projectsByType.value.length) {
+    typesToDisplay.value += 1;
+  }
+};
+
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll);
 });
 </script>
 

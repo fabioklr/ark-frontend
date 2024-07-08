@@ -4,10 +4,10 @@
         <!-- Hero -->
         <div class="md:mb-24 flex flex-col md:px-44 gap-y-2 text-center">
             <h1 class="text-4xl md:text-7xl font-bold">
-                Design, Planung und Bauleitung aus einer Hand.
+                design, planung und bauleitung aus einer hand.
             </h1>
             <h2 class="text-lg md:text-2xl text-gray">
-                Seit 30 Jahren realisiere ich in der ganzen Schweiz Wohnhäuser, Gewerbeflächen, Fitnesscenter und mehr.
+                seit 30 jahren realisiere ich in der ganzen Schweiz wohnhäuser, gewerbeflächen, fitnesscenter und mehr.
             </h2>
         </div>
 
