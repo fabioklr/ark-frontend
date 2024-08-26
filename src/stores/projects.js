@@ -7,8 +7,8 @@ export const useProjectsStore = defineStore('projectsstore', {
     }),
     actions: {
       async getProjects() {
-        const projects = await pb.collection('projects').getFullList({sort: '-year_completed'});
-        const projecttypes = await pb.collection('projecttypes').getFullList();
+        const projects = await pb.collection('project').getFullList({sort: '-year_completed'});
+        const projecttypes = await pb.collection('projecttype').getFullList();
         projects.forEach(project => {
           project.type = projecttypes.filter(pt => project.type.includes(pt.id)).map(pt => ({ id: pt.id, name: pt.name }));
         });
