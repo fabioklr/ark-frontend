@@ -17,7 +17,7 @@
                     {{ projectType[0] }}
                 </h2>
                 <!-- Cards for each project in a scrollable container -->
-                <div class="flex overflow-x-scroll snap-x gap-8">
+                <div class="flex overflow-x-scroll overflow-y-hidden snap-x gap-8">
                     <ProjectCard v-for="project in projectType[1]" :project="project" />
                 </div>
             </div>
@@ -59,10 +59,12 @@ watchEffect(() => {
 const projectsByType = computed(() => {
     const projectsByType = {};
     projects.value.forEach(project => {
-        if (projectsByType[project.type[0].name]) {
-            projectsByType[project.type[0].name].push(project);
-        } else {
-            projectsByType[project.type[0].name] = [project];
+        if (project.projekttyp && project.projekttyp.length > 0 && project.projekttyp[0].name) {
+            if (projectsByType[project.projekttyp[0].name]) {
+                projectsByType[project.projekttyp[0].name].push(project);
+            } else {
+                projectsByType[project.projekttyp[0].name] = [project];
+            }
         }
     });
     return Object.entries(projectsByType).sort((a, b) => b[1].length - a[1].length);

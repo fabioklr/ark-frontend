@@ -5,13 +5,14 @@
             class="w-72 h-80 md:w-96 md:h-96 snap-center drop-shadow-lg hover:drop-shadow-2xl
                     bg-eerie-black rounded-lg cursor-pointer
                     grayscale hover:grayscale-0">
-            <img 
+            <img
+                loading="lazy"
                 v-if="project.photos.length > 0"
                 :src="`${backendUrl}/api/files/nbz149u8u9p575z/${project.id}/${project.photos[0]}`"
                 alt="Project image"
                 width="640"
                 height="360"
-                class="w-full h-2/3 object-cover rounded-lg">
+                class="w-full h-2/3 object-cover rounded-lg bg-white">
             <div v-else class="w-full h-2/3 bg-gray-300 rounded-lg text-center flex items-center justify-center text-4xl">🚧🏰🚧</div>
             <!-- Project card text -->
             <div class="p-4 overflow-hidden">
@@ -19,10 +20,10 @@
                     {{ project.name }}
                 </p>
                 <p class="truncate">
-                    {{ project.description }}
+                    {{ project.beschreibung }}
                 </p>
                 <p>
-                    {{ project.ort }}, {{ project.year_completed.slice(0, 4) }}
+                    {{ project.ort }}, {{ project.ende.slice(0, 4) }}
                 </p>
             </div>
         </div>
