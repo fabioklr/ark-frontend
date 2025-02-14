@@ -8,17 +8,23 @@
                 <ProjectsMap />
             </div>
         </div>
+        <!-- Project Groups Section -->
+        <div v-if="groups.length" class="flex flex-col">
+            <h2 class="text-center text-4xl font-bold mb-4 mt-12">activ fitness</h2>
+            <div class="flex overflow-x-scroll gap-8">
+                <div class="flex overflow-x-scroll overflow-y-hidden snap-x gap-8">
+                    <ObjectCard v-for="group in groups" :key="group.id" :object="group" />
+                </div>
+            </div>
+        </div>
+        <!-- Projects by type (only projects without a group) -->
         <div class="flex flex-col">
-            <!-- Card with project information -->
-            <div v-for="projectType in projectsByType.slice(0, typesToDisplay)">
-                <!-- Header with project type -->
-                <h2 
-                    class="text-center text-4xl font-bold mb-4 mt-12">
+            <div v-for="projectType in projectsByType.slice(0, typesToDisplay)" :key="projectType[0]">
+                <h2 class="text-center text-4xl font-bold mb-4 mt-12">
                     {{ projectType[0] }}
                 </h2>
-                <!-- Cards for each project in a scrollable container -->
                 <div class="flex overflow-x-scroll overflow-y-hidden snap-x gap-8">
-                    <ProjectCard v-for="project in projectType[1]" :project="project" />
+                    <ObjectCard v-for="project in projectType[1]" :key="project.id" :object="project" />
                 </div>
             </div>
             <div v-if="typesToDisplay < projectsByType.length" class="flex justify-evenly my-12">
@@ -37,12 +43,13 @@ import { useProjectsStore } from '../stores/projects';
 import { storeToRefs } from 'pinia';
 import { useRoute } from 'vue-router';
 
-const ProjectCard = defineAsyncComponent(() =>
-  import('../components/ProjectCard.vue')
+const ObjectCard = defineAsyncComponent(() =>
+  import('../components/ObjectCard.vue')
 )
 
 const projectStore = useProjectsStore();
 const { projects } = storeToRefs(projectStore);
+const { groups } = storeToRefs(projectStore);
 const typesToDisplay = ref(3); // Start with 1 type displayed
 const showMap = ref(false);
 const route = useRoute();
@@ -54,21 +61,20 @@ watchEffect(() => {
     }
 });
 
-// Create an object whose keys are the types of projects and the values are all the projects of that type.
-// The object is then sorted by the amount of projects per type.
 const projectsByType = computed(() => {
-    const projectsByType = {};
+    const projectsByType = {}
     projects.value.forEach(project => {
+        if (project.projektgruppe) return
         if (project.projekttyp && project.projekttyp.length > 0 && project.projekttyp[0].name) {
-            if (projectsByType[project.projekttyp[0].name]) {
-                projectsByType[project.projekttyp[0].name].push(project);
-            } else {
-                projectsByType[project.projekttyp[0].name] = [project];
+            const typeName = project.projekttyp[0].name
+            if (!projectsByType[typeName]) {
+                projectsByType[typeName] = []
             }
+            projectsByType[typeName].push(project)
         }
-    });
-    return Object.entries(projectsByType).sort((a, b) => b[1].length - a[1].length);
-});
+    })
+    return Object.entries(projectsByType).sort((a, b) => b[1].length - a[1].length)
+})
 
 const handleScroll = () => {
   const bottomOfWindow = 

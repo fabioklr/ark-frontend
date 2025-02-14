@@ -51,7 +51,8 @@ const isLoading = ref(true);
 
 onMounted(async () => {
     // Get projects from API
-    await projectStore.getProjects();
+    await projectStore.fetchProjects();
+    await projectStore.fetchProjectGroups();
     isLoading.value = false;
     // Update window width on resize
     window.addEventListener('resize', () => {

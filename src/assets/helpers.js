@@ -26,7 +26,7 @@ export const createMap = (projects) => {
     })
       .setHTML(`<div class="text-eerie-black cursor-pointer">
                   <h1 class="font-bold">${project.name}</h1>
-                  <p>${project.ort}, ${project.year_completed.slice(0, 4)}</p>
+                  <p>${project.ort}, ${project.ende ? project.ende.slice(0, 4) : 'N/A'}</p>
                 </div>`)
       .setOffset(25)
       .addClassName(`${project.id}`)

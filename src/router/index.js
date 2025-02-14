@@ -19,6 +19,11 @@ const routes = [
         name: 'project-details',
         component: () => import('../views/ProjectDetailsView.vue')
     },
+    {
+        path: '/projektgruppe/:groupId',
+        name: 'project-group',
+        component: () => import('../views/ProjectGroupView.vue'),
+    },
     { 
         path: '/unternehmen',
         name: 'about',
