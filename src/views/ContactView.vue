@@ -68,7 +68,7 @@
 import { ref } from 'vue'
 import SiteButton from '@/components/SiteButton.vue'
 import VueHcaptcha from '@hcaptcha/vue3-hcaptcha';
-import emailjs from '@emailjs/browser';
+import { send } from '@emailjs/browser';
 
 const contactForm = ref(null);
 const complete = ref(false);
@@ -85,16 +85,24 @@ const submitHandler = () => {
     if (verified.value) {
         const data = contactForm.value.node;
         const templateParams = {
-            user_name: data.value.name,
-            user_email: data.value.email,
-            message: data.value.message,
+            user_name: data.value.name.trim(),
+            user_email: data.value.email.trim(),
+            message: data.value.message.trim(),
         }
 
-        emailjs.send('service_rkwh0oc', 'contact_form', templateParams, import.meta.env.VITE_EMAILJS_KEY)
-
-        complete.value = true;
+        send('service_rkwh0oc', 'contact_form', templateParams, import.meta.env.VITE_EMAILJS_KEY)
+            .then(() => {
+                complete.value = true;
+                contactForm.value.node.reset();
+                hcaptcha.value.reset();
+                verified.value = false;
+            })
+            .catch((error) => {
+                console.error('Email send error:', error);
+                errorMessage.value = 'Fehler beim Senden der Nachricht. Bitte versuchen Sie es erneut.';
+            });
     } else {
         errorMessage.value = 'Bitte füllen Sie alle Felder korrekt aus und bestätigen Sie mit hCaptcha.';
-    };
+    }
 }
 </script>
