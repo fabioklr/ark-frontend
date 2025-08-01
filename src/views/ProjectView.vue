@@ -1,111 +1,99 @@
 <template>
-    <div class="mt-16 pb-12 p-4">
-        <div v-if="showMap" class="flex flex-col items-center w-full h-96 md:h-[64vh]">
-            <!-- Header -->
-            <h1 class="text-4xl text-center font-bold">übersicht</h1>
-            <!-- Map showing the projects' location -->
-            <div class="w-full h-full mt-16 md:w-2/3">
-                <ProjectsMap />
+    <div class="flex flex-col items-center">
+        <!-- Title -->
+        <h1 class="text-4xl text-center pt-20 pb-12 font-bold">{{ project.name }}</h1>
+        <!-- Photo carousel -->
+        <div v-if="project.photos?.length > 1" class="relative w-full md:w-2/3 h-64 md:h-[36rem]">
+            <div v-for="(photoUrl, index) in project.photos">
+                <Transition
+                    enter-active-class="transition-opacity duration-700 ease-in-out"
+                    leave-active-class="transition-opacity duration-700 ease-in-out"
+                    enter-from-class="opacity-0"
+                    leave-to-class="opacity-0"
+                    enter-to-class="opacity-100"
+                    leave-from-class="opacity-100">
+                    <div v-if="currentSlide === index + 1">
+                        <img
+                            loading="lazy"
+                            :src="`${backendUrl}/api/files/nbz149u8u9p575z/${project.id}/${photoUrl}`"
+                            alt="Project image"
+                            width="640"
+                            height="360"
+                            class="absolute w-full h-full object-contain rounded bg-white">
+                    </div>
+                </Transition>
             </div>
-        </div>
-        <!-- Project Groups Section -->
-        <div v-if="groups.length" class="flex flex-col">
-            <h2 class="text-center text-4xl font-bold mb-4 mt-12">activ fitness</h2>
-            <div class="flex overflow-x-scroll gap-8">
-                <div class="flex overflow-x-scroll overflow-y-hidden snap-x gap-8">
-                    <ObjectCard v-for="group in groups" :key="group.id" :object="group" />
+            <div class="absolute inset-0 py-0 px-2 w-full flex items-center">
+                <div class="flex-1">
+                    <i @click="prevSlide" class="fas fa-chevron-left cursor-pointer flex items-center justify-center 
+                                rounded-full w-8 h-8 bg-eerie-black bg-opacity-90 text-white"></i>
+                </div>
+                <div @click="nextSlide" class="flex-1 flex justify-end ">
+                    <i class="fas fa-chevron-right cursor-pointer flex items-center justify-center 
+                                rounded-full w-8 h-8 bg-eerie-black bg-opacity-90 text-white"></i>
+                </div>
+            </div>
+            <div class="absolute bottom-0 w-full flex justify-center my-2">
+                <div v-for="(photo, index) in project.photos" class="mx-1">
+                    <div @click="currentSlide = index + 1" class="w-3 h-3 rounded-full bg-eerie-black bg-opacity-90 
+                                cursor-pointer" :class="{'bg-magenta-haze': currentSlide === index + 1}"></div>
                 </div>
             </div>
         </div>
-        <!-- Projects by type (only projects without a group) -->
-        <div class="flex flex-col">
-            <div v-for="projectType in projectsByType.slice(0, typesToDisplay)" :key="projectType[0]">
-                <h2 class="text-center text-4xl font-bold mb-4 mt-12">
-                    {{ projectType[0] }}
-                </h2>
-                <div class="flex overflow-x-scroll overflow-y-hidden snap-x gap-8">
-                    <ObjectCard v-for="project in projectType[1]" :key="project.id" :object="project" />
-                </div>
-            </div>
-            <div v-if="typesToDisplay < projectsByType.length" class="flex justify-evenly my-12">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 transform rotate-270" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                </svg>
-            </div>
+        <div v-else-if="project.photos?.length === 1" class="relative w-full md:w-2/3 h-64 md:h-[36rem]">
+            <img
+                loading="lazy"
+                :src="`${backendUrl}/api/files/nbz149u8u9p575z/${project.id}/${project.photos[0]}`"
+                alt="Project image"
+                width="640"
+                height="360"
+                class="absolute w-full h-full object-contain rounded bg-white">
         </div>
+        <!-- Project description, location and year of completion -->
+        <p class="text-lg my-6">
+            {{ project.ort + ', ' + project.ende?.slice(0, 4) }}
+        </p>
+        <p class="text-xl text-center mb-24">
+            {{ project.beschreibung }}
+        </p>
     </div>
 </template>
 
 <script setup>
-import { computed, ref, watchEffect, defineAsyncComponent, onMounted, onUnmounted } from 'vue'
-import ProjectsMap from '../components/ProjectsMap.vue'
-import { useProjectsStore } from '../stores/projects';
-import { storeToRefs } from 'pinia';
+import { ref, computed } from 'vue'
+import { useProjectsStore } from '@/stores/projects';
 import { useRoute } from 'vue-router';
+import { storeToRefs } from 'pinia';
 
-const ObjectCard = defineAsyncComponent(() =>
-  import('../components/ObjectCard.vue')
-)
-
+const route = useRoute();
+const currentSlide = ref(1);
+const autoPlayEnabled = ref(true);
+const timeoutDuration = ref(5000);
+const autoPlayInterval = ref(null);
 const projectStore = useProjectsStore();
 const { projects } = storeToRefs(projectStore);
-const { groups } = storeToRefs(projectStore);
-const typesToDisplay = ref(3); // Start with 1 type displayed
-const showMap = ref(false);
-const route = useRoute();
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
-// If the URL ends with '/projekte', set the number of projects to display to 10
-watchEffect(() => {
-    if (route.path === '/projekte') {
-        showMap.value = true;
-    }
-});
+const nextSlide = () => {
+    currentSlide.value = (currentSlide.value % project.value.photos?.length) + 1;
+}
 
-const projectsByType = computed(() => {
-    const projectsByType = {}
-    projects.value.forEach(project => {
-        if (project.projektgruppe) return
-        if (project.projekttyp && project.projekttyp.length > 0 && project.projekttyp[0].name) {
-            const typeName = project.projekttyp[0].name
-            if (!projectsByType[typeName]) {
-                projectsByType[typeName] = []
-            }
-            projectsByType[typeName].push(project)
-        }
-    })
-    return Object.entries(projectsByType).sort((a, b) => b[1].length - a[1].length)
-})
+const prevSlide = () => {
+    currentSlide.value = currentSlide.value === 1 
+        ? project.value.photos?.length 
+        : currentSlide.value - 1;
+}
 
-const handleScroll = () => {
-  const bottomOfWindow = 
-    window.innerHeight + window.scrollY >= document.documentElement.offsetHeight - 100;
+const autoPlay = () => {
+    autoPlayInterval.value = setInterval(nextSlide, timeoutDuration.value);
+}
 
-  if (bottomOfWindow && typesToDisplay.value < projectsByType.value.length) {
-    typesToDisplay.value += 1;
-  }
-};
+if (autoPlayEnabled.value) {
+    autoPlay();
+}
 
-onMounted(() => {
-  window.addEventListener('scroll', handleScroll);
-});
-
-onUnmounted(() => {
-  window.removeEventListener('scroll', handleScroll);
-});
+// Get a single project based on the id in the route
+const project = computed(() => 
+    projects.value.find(p => p.id === route.params.id) || {}
+);
 </script>
-
-<style>
-::-webkit-scrollbar {
-    height: 12px; /* Change the height as needed */
-    width: 12px; /* Change the width as needed */
-}
-
-::-webkit-scrollbar-thumb {
-    background-color: rgba(0,0,0,0.3); /* Change the color as needed */
-    border-radius: 10px; /* Change the border radius as needed */
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background-color: rgba(0,0,0,0.5); /* Change the color as needed */
-}
-</style>

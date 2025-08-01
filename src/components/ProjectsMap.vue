@@ -1,5 +1,5 @@
 <template>
-  <div id="map" class="h-full"></div>
+  <div id="map" class="h-[45vh]"></div>
 </template>
 
 <script setup>
