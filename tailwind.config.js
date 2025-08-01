@@ -17,11 +17,7 @@ module.exports = {
         'chinese-violet': '#8D5974',
         'magenta-haze': '#983267',
       }
-    },
-    screens: {
-      'sm': '640px',
-      'md': '768px',
-    },
+    }
   },
   plugins: [FormKitVariants]
 }

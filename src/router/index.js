@@ -12,12 +12,12 @@ const routes = [
     {
         path: '/projekte',
         name: 'projects',
-        component: () => import('../views/ProjectView.vue')
+        component: () => import('../views/GroupsProjectsView.vue')
     },
     {
         path: '/projekte/:id',
         name: 'project-details',
-        component: () => import('../views/ProjectDetailsView.vue')
+        component: () => import('../views/ProjectView.vue')
     },
     {
         path: '/projektgruppe/:groupId',
