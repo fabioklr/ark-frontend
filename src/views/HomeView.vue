@@ -1,7 +1,7 @@
 <template>
     <!-- Hero Section -->
     <div class="h-[45vh] md:h-[60vh] flex flex-col justify-center items-center gap-y-4 text-center px-4 md:px-8">
-        <h1 class="text-4xl md:text-6xl lg:text-8xl font-bold leading-tight tracking-wide md:mx-28">
+        <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-wide md:mx-28">
             design, planung und bauleitung aus einer hand.
         </h1>
         <h2 class="text-lg md:text-2xl lg:text-3xl text-gray max-w-2xl mx-auto">
@@ -34,7 +34,7 @@
                     </div>
                 </div>
                 <div class="p-4 text-center">
-                    <p class="text-lg font-bold text-gray-800">
+                    <p class="text-lg font-bold">
                         {{ projectType.count }}
                         {{ projectType.count === 1 ? "Projekt" : "Projekte" }}
                     </p>

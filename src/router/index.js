@@ -1,13 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import { pb } from '../assets/pocketbase';
-
-const HomeView = () => import('../views/HomeView.vue');
 
 const routes = [
     { 
         path: '/', 
         name: 'home', 
-        component: HomeView,
+        component: () => import('../views/HomeView.vue')
     },
     {
         path: '/projekte',

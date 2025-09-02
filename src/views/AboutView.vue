@@ -3,7 +3,7 @@
         <!-- Round image -->
         <div class="w-32 h-32 md:w-64 md:h-64 rounded-full overflow-hidden drop-shadow-lg mb-12">
             <img 
-                src="/public/portrait.webp"
+                :src="portrait"
                 alt="Portrait"
                 width="360"
                 height="360"
@@ -29,3 +29,15 @@
         </div>
     </div>
 </template>
+
+<script>
+import portrait from '@/assets/portrait.webp'
+
+export default {
+  data() {
+    return {
+      portrait
+    }
+  }
+}
+</script>

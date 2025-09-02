@@ -1,9 +1,15 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+ --color-eerie-black: #222121;
+ --color-onyx: #464546;
+ --color-gray: #818081;
+ --color-chinese-violet: #8D5974;
+ --color-magenta-haze: #983267;
+}
 
 @layer base {
     html {
       font-family: Helvetica, system-ui, sans-serif;
     }
-  }
+}

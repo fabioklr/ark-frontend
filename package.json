@@ -1,5 +1,6 @@
 {
   "name": "ark-frontend",
+  "type": "module",
   "version": "1.0.0",
   "main": "src/assets/mystyles.scss",
   "private": true,
@@ -12,26 +13,21 @@
     "start": "npm run css-watch"
   },
   "dependencies": {
-    "@emailjs/browser": "^3.10.0",
-    "@formkit/themes": "^1.0.0-beta.15",
-    "@formkit/validation": "^1.0.0-beta.9-f64c966",
-    "@formkit/vue": "^1.0.0-beta.15",
-    "@hcaptcha/vue3-hcaptcha": "^1.2.1",
-    "@mapbox/mapbox-gl-geocoder": "^5.0.1",
+    "@emailjs/browser": "^4.4.1",
+    "@hcaptcha/vue3-hcaptcha": "^1.3.0",
+    "@mapbox/mapbox-gl-geocoder": "^5.1.2",
+    "@tailwindcss/vite": "^4.1.12",
     "image-conversion": "^2.1.1",
-    "mapbox-gl": "^2.13.0",
-    "pinia": "^2.0.33",
-    "pocketbase": "^0.12.0",
-    "vue": "^3.2.45",
-    "vue-router": "^4.1.6"
+    "mapbox-gl": "^3.14.0",
+    "pinia": "^3.0.3",
+    "pocketbase": "^0.26.2",
+    "vue": "^3.5.21",
+    "vue-router": "^4.5.1"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^6.0.0",
-    "autoprefixer": "^10.4.13",
-    "postcss": "^8.4.21",
-    "tailwindcss": "^3.2.7",
-    "vite": "^7.0.4",
-    "vite-bundle-visualizer": "^1.2.1"
+    "@vitejs/plugin-vue": "^6.0.1",
+    "tailwindcss": "^4.1.12",
+    "vite": "^7.1.4"
   },
   "engines": {
     "node": ">=24.4.0"
