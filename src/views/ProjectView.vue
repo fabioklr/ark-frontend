@@ -23,15 +23,23 @@
                     </div>
                 </Transition>
             </div>
-            <div class="absolute inset-0 py-0 px-2 w-full flex items-center">
-                <div class="flex-1">
-                    <i @click="prevSlide" class="fas fa-chevron-left cursor-pointer flex items-center justify-center 
-                                rounded-full w-8 h-8 bg-eerie-black bg-opacity-90 text-white"></i>
-                </div>
-                <div @click="nextSlide" class="flex-1 flex justify-end ">
-                    <i class="fas fa-chevron-right cursor-pointer flex items-center justify-center 
-                                rounded-full w-8 h-8 bg-eerie-black bg-opacity-90 text-white"></i>
-                </div>
+            <div class="absolute inset-0 w-full h-full flex items-center justify-between px-4 pointer-events-none">
+                <button
+                    @click="prevSlide"
+                    class="flex items-center justify-center rounded-full w-8 h-8 bg-eerie-black bg-opacity-90 text-white pointer-events-auto"
+                    style="outline: none; border: none;"
+                    aria-label="Previous slide"
+                >
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button
+                    @click="nextSlide"
+                    class="flex items-center justify-center rounded-full w-8 h-8 bg-eerie-black bg-opacity-90 text-white pointer-events-auto"
+                    style="outline: none; border: none;"
+                    aria-label="Next slide"
+                >
+                    <i class="fas fa-chevron-right"></i>
+                </button>
             </div>
             <div class="absolute bottom-0 w-full flex justify-center my-2">
                 <div v-for="(photo, index) in project.photos" class="mx-1">

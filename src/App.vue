@@ -29,7 +29,7 @@
         </div>
         <!-- Copyright section -->
         <div class="flex justify-between items-end px-4 py-6 text-white text-xs">
-            <p>Copyright &copy; {{ new Date().getFullYear() }} Architektur Rolf Keller.<br>All rights reserved.</p>
+            <p>Copyright &copy; {{ new Date().getFullYear() }} Architektur Rolf Keller.<br>All rights reserved.<br>Designed and developed by Last Mile.</p>
             <p>ark@arkeller.ch</p>
         </div>
     </div>
