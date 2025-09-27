@@ -13,18 +13,16 @@
             He's had his own company for 30 years, loves what he does and likes watches and nice things. -->
         <div class="text-center md:px-16">
             <h2 class="text-3xl font-bold mb-8">
-                "Wenn mr öppis macht, denn richtig oder gar nöd."
+                wenn mr öppis macht, denn richtig oder gar nöd.
             </h2>
             <p class="text-lg mb-16 md:px-56">
-                Was dich begeistert, was du genau machst und worauf du dich freust. <br> 
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce consectetur gravida mi, quis laoreet velit iaculis id. 
-                Morbi tincidunt metus vel mauris interdum blandit. Nullam ut accumsan urna. Aenean id sagittis mi. 
-                Praesent ac aliquam lectus. Integer quis tristique risus. Vestibulum ante ipsum primis in faucibus orci luctus 
-                et ultrices posuere cubilia curae; Sed mollis vitae odio nec feugiat. Vestibulum ante ipsum primis in faucibus orci 
-                luctus et ultrices posuere cubilia curae; Donec feugiat orci sed aliquam feugiat. Cras vel elit ut odio vestibulum euismod. 
-                Nullam id ultrices urna. Suspendisse posuere eros ac quam bibendum, nec rutrum felis mattis. Sed aliquet, 
-                velit sit amet bibendum tristique, augue velit laoreet sem, eget vestibulum enim elit eu nulla. 
-                Vivamus posuere, libero id rhoncus molestie, mi turpis accumsan est, eu facilisis lectus tortor ut neque.
+                es begann mit der frage und der faszination, was papierflugzeuge zum fliegen, sandbrücken zum tragen und modelleisenbahnen zum laufen bringt. daraus wurde eine lebenslange beschäftigung mit konstruktion, architektur und design, bis heute mit fokus auf das wesentliche und geleitet von den prinzipien qualität, fleiss, bescheidenheit und fairness.
+                <br><br>
+                als architekt mit erfahrung in der bauleitung, verbinde ich planung mit ausführung und weiss, was projekte voranbringt und zum erfolg führt. ich verbinde pragmatismus mit einem klaren sinn für gestaltung. unverputzte wände, moderne akzente, verspielte details, sorgfältig aufeinander abgestimmt. wer mein büro betritt, erkennt die handschrift sofort.
+                <br><br>
+                ob umbau oder neubau: ich schätze die herausforderung und vielfalt in meiner arbeit und greife auf diese neugier sowie erfahrung zurück, um passgenaue lösungen zu entwickeln. mein portfolio reicht von wohnbauten über gewerbeprojekte – mit einer spezialisierung auf fitnesscenter.
+                <br><br>
+                schliesslich muss architektur für die menschen funktionieren, die sie nutzen. sie soll räume schaffen, die klarheit ausstrahlen, nützlich sind und zugleich inspirieren. mein ziel ist es orte zu gestalten, die beständigkeit und qualität haben, aber dennoch offen sind für die bewegung und die zukunft.
             </p>
         </div>
     </div>

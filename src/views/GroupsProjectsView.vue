@@ -6,7 +6,7 @@
         </div>
         <!-- Title of the project type -->
         <h2 class="text-center text-2xl md:text-3xl font-bold h-24 flex items-center justify-center p-4">
-            {{ selectedProjectType?.name || 'Alle Projekte' }}
+            {{ selectedProjectType?.name || 'alle projekte' }}
         </h2>
         <!-- Activ Fitness Project Groups -->
         <div

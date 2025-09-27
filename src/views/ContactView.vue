@@ -1,7 +1,7 @@
 <template>
     <div>
         <div v-if="!complete" class="text-4xl text-center font-bold mt-16 mb-8">
-            <h1>Kontakt</h1>
+            <h1>kontakt</h1>
         </div>
         <div class="flex flex-col items-center text-eerie-black">
             <form
@@ -18,7 +18,7 @@
                                 v-model="formData.name"
                                 type="text"
                                 name="name"
-                                placeholder="Vor- und Nachname"
+                                placeholder="vor- und nachname"
                                 required
                                 minlength="5"
                                 maxlength="30"
@@ -40,7 +40,7 @@
                                 v-model="formData.email"
                                 type="email"
                                 name="email"
-                                placeholder="Ihre E-Mail"
+                                placeholder="e-mail"
                                 required
                                 class="w-full bg-white p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 @input="clearError('email')" />
@@ -58,7 +58,7 @@
                             <textarea
                                 v-model="formData.message"
                                 name="message"
-                                placeholder="Nachricht"
+                                placeholder="nachricht"
                                 required
                                 minlength="5"
                                 maxlength="500"
@@ -74,7 +74,7 @@
             </form>
             
             <div v-else class="text-4xl text-center text-white font-bold mt-16 mb-8">
-                <h1>Nachricht gesendet &#128233; <br> Gerne werde ich mich bei Ihnen melden.</h1>
+                <h1>nachricht gesendet &#128233; <br> gerne werde ich mich bei Ihnen melden.</h1>
             </div>
             
             <div
@@ -93,7 +93,7 @@
             </div>
             
             <div v-if="!complete" class="mb-12 mt-6 flex justify-center">
-                <SiteButton @click="submitHandler" button-text="Senden" />
+                <SiteButton @click="submitHandler" button-text="senden" />
             </div>
         </div>
     </div>
